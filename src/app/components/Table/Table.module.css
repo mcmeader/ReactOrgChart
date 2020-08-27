@@ -1,0 +1,38 @@
+.table {
+    display: table;
+    border-collapse: collapse;
+    border: 1px solid white;
+    width: 100%;
+}
+
+.tableHead {
+
+}
+
+.tableBody {
+
+}
+
+.tableRow {
+
+}
+
+
+
+.tableRow:nth-child(odd) {
+    background-color: #273244;
+}
+
+.tableHeader, .tableCell {
+    border: 1px solid lightgray;
+    padding:  5px;
+}
+
+.tableHeader {
+
+}
+
+.tableCell {
+
+}
+

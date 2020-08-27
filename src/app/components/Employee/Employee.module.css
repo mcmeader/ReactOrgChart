@@ -1,0 +1,33 @@
+.container {
+    display: flex;
+    flex: 1;
+}
+
+.employeeDetails {
+    /*border: 1px solid white;*/
+}
+
+.employeeDetails p {
+    margin: 0;
+    padding: 2px;
+}
+
+.showHideToggle {
+    cursor: pointer;
+}
+
+.showHideToggle:hover {
+    color: limegreen;
+}
+
+.createForm {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+.inputGroup {
+    display: flex;
+    margin: 5px 0;
+    justify-content: space-between;
+}

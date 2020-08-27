@@ -13,7 +13,7 @@ describe("Api Service", () => {
             const response = await doGet("/something");
 
             expect(fetch.mock.calls.length).toEqual(1);
-            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/something');
+            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/api/orgchart/something');
             expect(fetch.mock.calls[0][1].method).toEqual('GET');
             expect(fetch.mock.calls[0][1].headers).toEqual({"Content-Type": "application/json"});
 
@@ -27,7 +27,7 @@ describe("Api Service", () => {
                 await doGet("/something");
             } catch(e) {
                 expect(fetch.mock.calls.length).toEqual(1);
-                expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/something');
+                expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/api/orgchart/something');
                 expect(fetch.mock.calls[0][1].method).toEqual('GET');
                 expect(fetch.mock.calls[0][1].headers).toEqual({"Content-Type": "application/json"});
 
@@ -44,7 +44,7 @@ describe("Api Service", () => {
             const response = await doPost("/something", { something: "no"});
 
             expect(fetch.mock.calls.length).toEqual(1);
-            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/something');
+            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/api/orgchart/something');
             expect(fetch.mock.calls[0][1].method).toEqual('POST');
             expect(fetch.mock.calls[0][1].headers).toEqual({"Content-Type": "application/json"});
             expect(fetch.mock.calls[0][1].body).toEqual(JSON.stringify({ something: "no"}));
@@ -60,7 +60,7 @@ describe("Api Service", () => {
             const response = await doPut("/something", { something: "no"});
 
             expect(fetch.mock.calls.length).toEqual(1);
-            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/something');
+            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/api/orgchart/something');
             expect(fetch.mock.calls[0][1].method).toEqual('PUT');
             expect(fetch.mock.calls[0][1].headers).toEqual({"Content-Type": "application/json"});
             expect(fetch.mock.calls[0][1].body).toEqual(JSON.stringify({ something: "no"}));
@@ -76,7 +76,7 @@ describe("Api Service", () => {
             const response = await doDelete("/something");
 
             expect(fetch.mock.calls.length).toEqual(1);
-            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/something');
+            expect(fetch.mock.calls[0][0]).toEqual('http://localhost:8080/api/orgchart/something');
             expect(fetch.mock.calls[0][1].method).toEqual('DELETE');
             expect(fetch.mock.calls[0][1].headers).toEqual({"Content-Type": "application/json"});
 

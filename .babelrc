@@ -9,5 +9,12 @@
       }
     ],
     "@babel/preset-react"
-  ]
+  ],
+  "env": {
+    "test": {
+      "plugins": [
+        ["istanbul", {}, "cypress-istanbul"]
+      ]
+    }
+  }
 }

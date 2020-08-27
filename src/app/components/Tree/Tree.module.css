@@ -1,0 +1,81 @@
+.treeContainer {
+    padding-inline-start: 0;
+    margin: 0;
+
+    --line-height: 20px;
+    --line-width: 1px;
+    --line-color: white;
+    --line-border-radius: 5px;
+    --node-padding: 5px;
+
+    --tree-line-height: var(--line-height, 20px);
+    --tree-line-width: var(--line-width, 1px);
+    --tree-line-color: var(--line-color, white);
+    --tree-line-border-radius: var(--line-border-radius, 5px);
+    --tree-node-padding: var(--node-padding, 5px);
+}
+
+.nodeContainer {
+    flex: auto;
+    text-align: center;
+    list-style-type: none;
+    position: relative;
+    padding: var(--tree-line-height) var(--tree-node-padding) 0 var(--tree-node-padding);
+}
+
+.nodeContainer::before, .nodeContainer::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 50%;
+    width: 50%;
+    border-top: var(--tree-line-width) solid var(--tree-line-color);
+    height: var(--tree-line-height);
+}
+
+.nodeContainer::after {
+    left: 50%;
+    border-left: var(--tree-line-width) solid var(--tree-line-color);
+}
+
+.nodeContainer:only-child {
+    padding: 0;
+}
+
+.nodeContainer:only-child::after, .nodeContainer:only-child::before {
+    display: none;
+}
+
+.nodeContainer:first-of-type::before {
+    border: 0 none;
+}
+
+.nodeContainer:first-of-type::after {
+    border-radius: var(--tree-line-border-radius) 0 0 0;
+}
+
+.nodeContainer:last-of-type::before {
+    border-right: var(--tree-line-width) solid var(--tree-line-color);
+    border-radius: 0 var(--tree-line-border-radius) 0 0;
+}
+
+.nodeContainer:last-of-type::after {
+    border: 0 none;
+}
+
+.childContainer {
+    display: flex;
+    padding-inline-start: 0;
+    padding-top: var(--tree-line-height);
+    position: relative;
+}
+
+.childContainer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    border-left: var(--tree-line-width) solid var(--tree-line-color);
+    height: var(--tree-line-height);
+}

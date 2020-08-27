@@ -2,5 +2,9 @@
 coverage/
 node_modules/
 dist/
+.nyc_output/
+cypress-coverage/
+jest-coverage/
+reports/
 
 **/*.iml

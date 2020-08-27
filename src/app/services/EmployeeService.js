@@ -10,6 +10,10 @@ export const getArchivedEmployees = () => {
     return doGet(`${serviceUrl}/archives`);
 }
 
+export const getEmployeesByManagerId = (managerId) => {
+    return doGet(`${serviceUrl}/manager/${managerId}`);
+}
+
 export const getEmployeeById = (employeeId) => {
     return doGet(`${serviceUrl}/${employeeId}`);
 }

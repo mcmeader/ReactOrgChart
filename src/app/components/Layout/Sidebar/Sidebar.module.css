@@ -1,0 +1,34 @@
+.container {
+    grid-area: sidebar;
+}
+
+.navList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navItem {
+    padding: 5px;
+}
+
+.navItem a {
+    color: white;
+    text-decoration: none;
+}
+
+.subList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    background-color: #1B2431;
+}
+
+.active ~ .subList {
+    display: block;
+}
+
+.active {
+    font-weight: bold;
+}
