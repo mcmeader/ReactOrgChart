@@ -7,11 +7,9 @@ const App = () => {
     return (
         <BrowserRouter>
             <ToastProvider
-                autoDismiss={true}
-            >
+                autoDismiss={true}>
                 <Layout>
                     <Switch>
-
                     </Switch>
                 </Layout>
             </ToastProvider>
