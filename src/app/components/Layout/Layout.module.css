@@ -1,17 +1,31 @@
 .container {
+    color: #f6f7f8;
     display: grid;
     flex: 1;
     grid-template-columns: 175px auto;
     grid-template-rows: 75px auto;
     grid-template-areas:
         "header header"
-        "sidebar content";
+        "sidebar body"
 }
 
-.content {
-    grid-area: content;
+.header {
+    grid-area: header;
     display: flex;
-    background-color: #1B2431;
+    background-color: #f6f7f8;
     padding: 10px;
-    border-radius: 8px 0 0 0;
+    border-radius: 8px 8px 8px 8px;
+}
+.sidebar {
+    grid-area: sidebar;
+    display: flex;
+    padding: 10px;
+    border-radius: 8px 8px 8px 8px;
+}
+.content {
+    background-color: teal;
+    grid-area: body;
+    display: flex;
+    padding: 10px;
+    border-radius: 8px 8px 8px 8px;
 }

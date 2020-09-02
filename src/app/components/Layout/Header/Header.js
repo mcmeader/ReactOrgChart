@@ -1,15 +1,12 @@
 import React from 'react';
 
-import styles from './Layout.module.css';
-import Header from "../Header/Header.js";
-import Sidebar from "./Sidebar/Sidebar.js";
+import styles from './Header.module.css';
 
-const Layout = ({ children }) => {
+const Header = () => {
     return (
         <div className={styles.container}>
-
         </div>
     );
 };
 
-export default Layout;
+export default Header;
