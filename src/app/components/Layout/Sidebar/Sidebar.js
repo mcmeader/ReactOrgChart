@@ -8,15 +8,15 @@ import TextButton from '../../Buttons/TextButton/TextButton'
 const Sidebar = (props) => {
     return (
         <div className={styles.container}>
-            {props.tableContent.map(value =>
-                value.mainValue === null ? <TextButton mainValue={value.mainValue} />
-                    : <NestedButton mainValue={value.mainValue} subValue={value.subValue} />)}
+            {props.tableContent.map((value, key) =>
+                value.subValue === null ? <TextButton key={key} mainValue={value.mainValue} />
+                    : <NestedButton key={key} mainValue={value.mainValue} subValue={value.subValue} />)}
         </div>
     );
 };
 
 Sidebar.propTypes = {
-    tableContent: PropTypes.arrayOf(Object)
+    tableContent: PropTypes.arrayOf(Object),
 }
 
 export default Sidebar;

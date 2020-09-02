@@ -5,8 +5,10 @@ import Table from '../../../Tables/Table'
 import { employeeTableHeaders } from '../../../../constants/EmployeeTableHeaders';
 import { getEmployees } from '../../../../services/EmployeeService';
 
-const Employees = (props) => {
-    useLayoutEffect(() => { fetchEmployees() }, [])
+const Employees = () => {
+    useLayoutEffect(() => {
+        fetchEmployees()
+    }, [])
 
     const [employees, setEmployees] = useState(null)
 

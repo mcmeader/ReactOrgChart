@@ -2,17 +2,22 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import styles from './TextButton.module.css'
+import { Link } from 'react-router-dom';
 
 const TextButton = (props) => {
+    let routeMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '') : ""
+
     return (
-        <div className={styles.container} onClick={() => { props.state = props.mainValue }}>
-            {props.mainValue}
-        </div>
+        <Link to={routeMainValue}>
+            <div className={styles.container}>
+                {props.mainValue}
+            </div>
+        </Link>
     );
 };
 
 TextButton.propTypes = {
-    mainValue: PropTypes.string
+    mainValue: PropTypes.string,
 }
 
 export default TextButton;
