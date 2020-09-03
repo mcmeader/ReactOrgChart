@@ -1,26 +1,24 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastProvider } from 'react-toast-notifications'
 import Layout from "./components/Layout";
-import JobTitles from './components/Layout/CenterComponents/JobTitles/JobTitles';
-import Departments from './components/Layout/CenterComponents/Departments/Departments';
-import Employees from './components/Layout/CenterComponents/Employees/Employees';
+import CreateComponent from './components/Layout/CenterComponents/CreateComponents/CreateComponent';
+import TabledComponent from './components/Layout/CenterComponents/TabledComponents/TabledComponent';
+import { employeeTableHeaders } from './constants/EmployeeTableHeaders';
 import { getEmployees } from './services/EmployeeService';
+import { jobTitleTableHeaders } from './constants/JobTitleTableHeaders';
+import { departmentTableHeaders } from './constants/DepartmentTableHeaders';
 import { getActiveDepartments } from './services/DepartmentService';
 import { getJobTitles } from './services/JobTitleService';
-import EmployeeReducer from './reducers/EmployeeReducer';
-import DepartmentReducer from './reducers/DepartmentReducer';
-import JobTitleReducer from './reducers/JobTitleReducer';
+import EmployeeReducer, { initialEmployee } from './reducers/EmployeeReducer';
+import JobTitleReducer, { initialJobTitle } from './reducers/JobTitleReducer';
+import DepartmentReducer, { initialDepartment } from './reducers/DepartmentReducer';
 
 const App = () => {
-    const [employeeState, employeeDispatch] = useReducer(EmployeeReducer, null)
-    const [departmentState, departmentDispatch] = useReducer(DepartmentReducer, null)
-    const [jobTitleState, jobTitleDispatch] = useReducer(JobTitleReducer, null)
-
     return (
         <BrowserRouter>
-            <ToastProvider>
-                {/* // autoDismiss={true}> */}
+            <ToastProvider
+                autoDismiss={true}>
                 <Layout>
                     <Switch>
                         <Route exact path="/" >
@@ -28,21 +26,41 @@ const App = () => {
                         {/* <Route exact path="/orgchart" />
                         <OrgChart /> */}
                         <Route path="/employees" >
-                            {console.log(employeeState)}
-                            <Employees state={employeeState} />
+                            <TabledComponent
+                                headerValues={employeeTableHeaders}
+                                fetchData={getEmployees} />
                         </Route>
-                        {/* <Route exact path="/createemployee" />
-                        <createEmployee /> */}
                         <Route path="/departments" >
-                            <Departments state={departmentState} />
+                            <TabledComponent
+                                headerValues={departmentTableHeaders}
+                                fetchData={getActiveDepartments} />
                         </Route>
-                        {/* <Route exact path="/createdepartment" />
-                        <createDepartment /> */}
                         <Route path="/jobTitles" >
-                            <JobTitles state={jobTitleState} />
+                            <TabledComponent
+                                headerValues={jobTitleTableHeaders}
+                                fetchData={getJobTitles} />
                         </Route>
-                        {/* <Route exact path="/createjobtitle" />
-                        <createJobTitle /> */}
+                        <Route exact path="/createemployee" >
+                            <CreateComponent
+                                headerValues={employeeTableHeaders}
+                                reducer={EmployeeReducer}
+                                initialValue={initialEmployee}
+                            />
+                        </Route>
+                        <Route exact path="/createdepartment" >
+                            <CreateComponent
+                                headerValues={departmentTableHeaders}
+                                reducer={DepartmentReducer}
+                                initialValue={initialDepartment}
+                            />
+                        </Route>
+                        <Route path="/createjobtitle" >
+                            <CreateComponent
+                                headerValues={jobTitleTableHeaders}
+                                reducer={JobTitleReducer}
+                                initialValue={initialJobTitle}
+                            />
+                        </Route>
                     </Switch>
                 </Layout>
             </ToastProvider>

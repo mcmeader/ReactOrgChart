@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 
 import styles from './Layout.module.css';
 import Sidebar from './Sidebar/Sidebar'
-import Employees from '../Layout/CenterComponents/Employees/Employees'
 import { sidebarValues } from '../../constants/SidebarValues'
-import Departments from './CenterComponents/Departments/Departments';
 
 const Layout = ({ children }) => {
     return (
