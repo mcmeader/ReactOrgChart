@@ -1,4 +1,10 @@
-.container {
-    font-size: 2rem;
-   color:rgb(255,255,255)
-  }
+.mainValue {
+    font-size: 1.5rem;
+    color:rgb(255,255,255)
+}
+.subValue{
+    font-size: 1rem;
+    color:rgb(255,255,255);
+    padding-left:10px;
+}
+

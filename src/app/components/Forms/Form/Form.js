@@ -3,28 +3,40 @@ import PropTypes from 'prop-types'
 
 import styles from './Form.module.css';
 import FormField from '../FormField/FormField'
-import { createJobTitle } from '../../../services/JobTitleService';
 
 const Form = (props) => {
     const [formField, formFieldDispatch] = useReducer(props.reducer, props.initialValue)
-    const submitHandler = () => createJobTitle(formField)
-
+    const submitHandler = async () => {
+        await props.createService(formField)
+    }
     return (
-        <form className={styles.container} onSubmit={submitHandler}>
-            {props.formData.map((data, key) => {
-                return (
-                    <FormField text={data.text} type={data.type} inputValue={formField} dispatch={formFieldDispatch} key={key} />
-                )
-            })}
-            <input type="submit" value="Submit" />
+        <form onSubmit={submitHandler}>
+            <div className={styles.container}>
+                {props.formData.map((data, key) => {
+                    return (
+                        <FormField
+                            text={data.text}
+                            type={data.type}
+                            inputValue={formField}
+                            dispatch={formFieldDispatch}
+                            key={key}
+                            selectOptions={data.selectOption}
+                            componentName={props.componentName}
+                        />
+                    )
+                })}
+                <input data-testid={`create-${props.componentName}-save-button`} type="submit" value="Save" />
+            </div>
         </form>
     );
 };
 
 Form.propTypes = {
-    data: PropTypes.arrayOf(Object),
+    formData: PropTypes.arrayOf(Object),
     reducer: PropTypes.func,
-    initialValue: PropTypes.object
+    initialValue: PropTypes.object,
+    createService: PropTypes.func,
+    componentName: PropTypes.string,
 }
 
 export default Form

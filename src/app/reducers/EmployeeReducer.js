@@ -10,12 +10,15 @@ export const initialEmployee = {
 export default (state, action) => {
     switch (action.type) {
         case 'reset':
-            return initialEmployee
+            state = initialEmployee
+            break
         case 'update':
-            return updateState(state, action.field, action.value)
+            state = updateState(state, action.field, action.value)
+            break
         default:
-            return state
+            break
     }
+    return state
 }
 
 const updateState = (state, field, value) => {

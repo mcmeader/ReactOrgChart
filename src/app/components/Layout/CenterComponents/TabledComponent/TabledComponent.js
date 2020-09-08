@@ -7,13 +7,14 @@ import Table from '../../../Tables/Table'
 const TabledComponent = (props) => {
     useLayoutEffect(() => {
         fetchData()
-    }, [])
+    }, [props.fetchData])
 
     const [data, setData] = useState(null)
 
     const fetchData = async () => {
         setData(await props.fetchData())
     }
+
     return (
         <div className={styles.container}>
             <Table headers={props.headerValues} data={data} />

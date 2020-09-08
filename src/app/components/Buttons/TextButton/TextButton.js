@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 const TextButton = (props) => {
     let routeMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '') : ""
-
+    console.log(routeMainValue)
     return (
         <Link to={routeMainValue}>
             <div className={styles.container}>

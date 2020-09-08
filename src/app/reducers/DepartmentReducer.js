@@ -6,18 +6,21 @@ export const initialDepartment = {
 export default (state, action) => {
     switch (action.type) {
         case 'reset':
-            return initialDepartment
+            state = initialDepartment
+            break
         case 'update':
-            return updateState(state, action.field, action.value)
+            state = updateState(state, action.field, action.value)
+            break
         default:
-            return state
+            break
     }
+    return state
 }
 
 const updateState = (state, field, value) => {
     switch (field) {
         case 'isActive':
-            state.firstName = value
+            state.isActive = value
             break
         case 'name':
             state.name = value

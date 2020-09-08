@@ -2,17 +2,20 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastProvider } from 'react-toast-notifications'
 import Layout from "./components/Layout";
-import CreateComponent from './components/Layout/CenterComponents/CreateComponents/CreateComponent';
-import TabledComponent from './components/Layout/CenterComponents/TabledComponents/TabledComponent';
+import CreateComponent from './components/Layout/CenterComponents/CreateComponent/CreateComponent';
+import TabledComponent from './components/Layout/CenterComponents/TabledComponent/TabledComponent';
+import OrgChart from './components/Layout/CenterComponents/OrgChart/OrgChart';
 import { employeeTableHeaders } from './constants/EmployeeTableHeaders';
-import { getEmployees } from './services/EmployeeService';
+import { getEmployees, createEmployee } from './services/EmployeeService';
 import { jobTitleTableHeaders } from './constants/JobTitleTableHeaders';
 import { departmentTableHeaders } from './constants/DepartmentTableHeaders';
-import { getActiveDepartments } from './services/DepartmentService';
-import { getJobTitles } from './services/JobTitleService';
+import { getActiveDepartments, createDepartment } from './services/DepartmentService';
+import { getJobTitles, createJobTitle } from './services/JobTitleService';
 import EmployeeReducer, { initialEmployee } from './reducers/EmployeeReducer';
 import JobTitleReducer, { initialJobTitle } from './reducers/JobTitleReducer';
 import DepartmentReducer, { initialDepartment } from './reducers/DepartmentReducer';
+import CreateEmployee from './components/Layout/CenterComponents/CreateEmployee/CreateEmployee';
+
 
 const App = () => {
     return (
@@ -21,10 +24,10 @@ const App = () => {
                 autoDismiss={true}>
                 <Layout>
                     <Switch>
-                        <Route exact path="/" >
+                        <Route exact path="/" />
+                        <Route exact path="/orgchart" >
+                            <OrgChart />
                         </Route>
-                        {/* <Route exact path="/orgchart" />
-                        <OrgChart /> */}
                         <Route path="/employees" >
                             <TabledComponent
                                 headerValues={employeeTableHeaders}
@@ -41,10 +44,11 @@ const App = () => {
                                 fetchData={getJobTitles} />
                         </Route>
                         <Route exact path="/createemployee" >
-                            <CreateComponent
+                            <CreateEmployee
                                 headerValues={employeeTableHeaders}
                                 reducer={EmployeeReducer}
                                 initialValue={initialEmployee}
+                                createService={createEmployee}
                             />
                         </Route>
                         <Route exact path="/createdepartment" >
@@ -52,6 +56,8 @@ const App = () => {
                                 headerValues={departmentTableHeaders}
                                 reducer={DepartmentReducer}
                                 initialValue={initialDepartment}
+                                createService={createDepartment}
+                                componentName="department"
                             />
                         </Route>
                         <Route path="/createjobtitle" >
@@ -59,6 +65,8 @@ const App = () => {
                                 headerValues={jobTitleTableHeaders}
                                 reducer={JobTitleReducer}
                                 initialValue={initialJobTitle}
+                                createService={createJobTitle}
+                                componentName="job-title"
                             />
                         </Route>
                     </Switch>

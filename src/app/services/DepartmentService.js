@@ -8,21 +8,21 @@ export const getActiveDepartments = () => {
 }
 
 export const getArchivedDepartments = () => {
-    doGet(archivedDeptsUrl)
+    return doGet(archivedDeptsUrl)
 }
 
 export const getDepartmentById = (departmentId) => {
-    doGet(serviceUrl + "/" + departmentId)
+    return doGet(serviceUrl + "/" + departmentId)
 }
 
 export const createDepartment = (department) => {
-    doPost(serviceUrl, department)
+    return doPost(serviceUrl, department)
 }
 
 export const updateDepartment = (department) => {
-    doPut(serviceUrl, department)
+    return doPut(serviceUrl, department)
 }
 
 export const deleteDepartment = (departmentId) => {
-    doDelete(serviceUrl + "/" + departmentId)
+    return doDelete(serviceUrl + "/" + departmentId)
 }

@@ -4,15 +4,17 @@ export const initialJobTitle = {
 }
 
 export default (state, action) => {
-    console.log("state:", state, "action:", action)
     switch (action.type) {
         case 'reset':
-            return initialJobTitle
+            state = initialJobTitle
+            break
         case 'update':
-            return updateState(state, action.field, action.value)
+            state = updateState(state, action.field, action.value)
+            break
         default:
-            return state
+            break
     }
+    return state
 }
 
 const updateState = (state, field, value) => {
