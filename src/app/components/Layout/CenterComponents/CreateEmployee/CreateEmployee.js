@@ -10,7 +10,7 @@ import { getJobTitles } from '../../../../services/JobTitleService';
 const CreateEmployee = (props) => {
     useEffect(() => {
         fetchData()
-    }, [employees, departments, jobTitles])
+    }, [])
 
     const [employees, setEmployees] = useState(["-"])
     const [departments, setDepartments] = useState(["-"])
@@ -27,9 +27,9 @@ const CreateEmployee = (props) => {
 
     let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
     formFields = [...formFields,
-    { text: "Manager", type: "select", selectOption: employees.map(employee => employee.firstName + (employee.middleInitial === null ? "" : " " + employee.middleInitial) + " " + employee.lastName) },
-    { text: "Department", type: "select", selectOption: departments.map(department => department.name) },
-    { text: "Job Title", type: "select", selectOption: jobTitles.map(jobTitle => jobTitle.name) }]
+    { text: "Manager", type: "select", selectOptions: employees },
+    { text: "Department", type: "select", selectOptions: departments },
+    { text: "Job Title", type: "select", selectOptions: jobTitles }]
 
     return (
         <div className={styles.container}>
@@ -38,7 +38,6 @@ const CreateEmployee = (props) => {
                 reducer={props.reducer}
                 initialValue={props.initialValue}
                 createService={props.createService}
-                isEmployee={true}
                 componentName="employee" />
         </div>
     );

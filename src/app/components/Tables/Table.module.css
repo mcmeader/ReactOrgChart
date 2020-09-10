@@ -4,9 +4,12 @@
     border: 2px solid white;
   }
   .container td{
-      align-self: center;
       border: 2px solid white;
-}
+  }
   .container th{
     border: 2px solid white;
+  }
+  .container tr{
+    height:50px;
+    flex-direction: row;
   }

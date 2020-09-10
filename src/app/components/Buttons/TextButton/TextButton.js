@@ -5,8 +5,8 @@ import styles from './TextButton.module.css'
 import { Link } from 'react-router-dom';
 
 const TextButton = (props) => {
-    let routeMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '') : ""
-    console.log(routeMainValue)
+    let routeMainValue = (props.mainValue != undefined && props.mainValue != null)
+        ? props.mainValue.toLowerCase().trim().replaceAll(' ', '') : ""
     return (
         <Link to={routeMainValue}>
             <div className={styles.container}>

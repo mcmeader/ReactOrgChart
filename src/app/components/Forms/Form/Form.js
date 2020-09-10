@@ -7,7 +7,10 @@ import FormField from '../FormField/FormField'
 const Form = (props) => {
     const [formField, formFieldDispatch] = useReducer(props.reducer, props.initialValue)
     const submitHandler = async () => {
+        event.preventDefault()
         await props.createService(formField)
+        formFieldDispatch({ type: 'reset' })
+        console.log(formField)
     }
     return (
         <form onSubmit={submitHandler}>
@@ -20,7 +23,7 @@ const Form = (props) => {
                             inputValue={formField}
                             dispatch={formFieldDispatch}
                             key={key}
-                            selectOptions={data.selectOption}
+                            selectOptions={data.selectOptions}
                             componentName={props.componentName}
                         />
                     )
