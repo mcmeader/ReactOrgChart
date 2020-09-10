@@ -15,7 +15,10 @@ const CreateComponent = (props) => {
                 reducer={props.reducer}
                 initialValue={props.initialValue}
                 createService={props.createService}
-                componentName={props.componentName} />
+                editService={props.editService}
+                componentName={props.componentName}
+                action="create"
+            />
         </div>
     );
 };

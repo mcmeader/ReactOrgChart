@@ -20,6 +20,7 @@ const TabledComponent = (props) => {
             <Table
                 headers={props.headerValues}
                 data={data}
+                editHandler={props.editHandler}
                 deleteHandler={props.deleteHandler}
                 fetchHandler={fetchData} />
         </div>
@@ -29,6 +30,7 @@ const TabledComponent = (props) => {
 TabledComponent.propTypes = {
     headerValues: PropTypes.arrayOf(String),
     fetchData: PropTypes.func,
+    editService: PropTypes.func,
     deleteHandler: PropTypes.func,
     componentName: PropTypes.string
 }

@@ -1,4 +1,4 @@
-import { useHistory, Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import React from 'react';
 import PropTypes from 'prop-types'
 
@@ -12,6 +12,7 @@ const NestedButton = (props) => {
     let testIdSubValue = (props.subValue != undefined && props.subValue != null) ? props.subValue.toLowerCase().trim().replaceAll(' ', '-') : ""
 
     routeMainValue = (routeMainValue === 'jobtitles') ? 'job-titles' : routeMainValue
+
     return (
         <div className={styles.container}>
             <Link to={routeMainValue}>
@@ -19,11 +20,13 @@ const NestedButton = (props) => {
                     {props.mainValue}
                 </div>
             </Link>
-            <Link to={routeSubValue}>
-                <div data-testid={`${testIdSubValue}-link`} className={styles.subValue}>
-                    {props.subValue}
-                </div>
-            </Link>
+            {((props.currentUrl === routeMainValue) || (props.currentUrl === routeSubValue)) ?
+                <Link to={routeSubValue}>
+                    <div data-testid={`${testIdSubValue}-link`} className={styles.subValue}>
+                        {props.subValue}
+                    </div>
+                </Link>
+                : ""}
         </div>
     );
 };
@@ -31,7 +34,8 @@ const NestedButton = (props) => {
 NestedButton.propTypes = {
     mainValue: PropTypes.string,
     subValue: PropTypes.string,
-    clickHandler: PropTypes.func
+    clickHandler: PropTypes.func,
+    currentUrl: PropTypes.string
 }
 
 export default NestedButton;

@@ -6,15 +6,16 @@ import CreateComponent from './components/Layout/CenterComponents/CreateComponen
 import TabledComponent from './components/Layout/CenterComponents/TabledComponent/TabledComponent';
 import OrgChart from './components/Layout/CenterComponents/OrgChart/OrgChart';
 import { employeeTableHeaders } from './constants/EmployeeTableHeaders';
-import { getEmployees, createEmployee, deleteEmployee } from './services/EmployeeService';
+import { getEmployees, createEmployee, deleteEmployee, updateEmployee } from './services/EmployeeService';
 import { jobTitleTableHeaders } from './constants/JobTitleTableHeaders';
 import { departmentTableHeaders } from './constants/DepartmentTableHeaders';
-import { getActiveDepartments, createDepartment, deleteDepartment } from './services/DepartmentService';
-import { getJobTitles, createJobTitle, deleteJobTitle } from './services/JobTitleService';
+import { getActiveDepartments, createDepartment, deleteDepartment, updateDepartment } from './services/DepartmentService';
+import { getJobTitles, createJobTitle, deleteJobTitle, updateJobTitle } from './services/JobTitleService';
 import EmployeeReducer, { initialEmployee } from './reducers/EmployeeReducer';
 import JobTitleReducer, { initialJobTitle } from './reducers/JobTitleReducer';
 import DepartmentReducer, { initialDepartment } from './reducers/DepartmentReducer';
 import CreateEmployee from './components/Layout/CenterComponents/CreateEmployee/CreateEmployee';
+import EditComponent from './components/Layout/CenterComponents/Edit Components/EditComponent';
 
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
                             <TabledComponent
                                 headerValues={employeeTableHeaders}
                                 fetchData={getEmployees}
+                                editService={updateEmployee}
                                 deleteHandler={deleteEmployee}
                                 componentName="employee" />
                         </Route>
@@ -39,6 +41,7 @@ const App = () => {
                             <TabledComponent
                                 headerValues={departmentTableHeaders}
                                 fetchData={getActiveDepartments}
+                                editService={updateDepartment}
                                 deleteHandler={deleteDepartment}
                                 componentName="department" />
                         </Route>
@@ -46,6 +49,7 @@ const App = () => {
                             <TabledComponent
                                 headerValues={jobTitleTableHeaders}
                                 fetchData={getJobTitles}
+                                editService={updateJobTitle}
                                 deleteHandler={deleteJobTitle}
                                 componentName="job-title" />
                         </Route>
@@ -55,6 +59,7 @@ const App = () => {
                                 reducer={EmployeeReducer}
                                 initialValue={initialEmployee}
                                 createService={createEmployee}
+                                editService={updateEmployee}
                                 componentName="employee" />
                         </Route>
                         <Route exact path="/createdepartment" >
@@ -63,6 +68,7 @@ const App = () => {
                                 reducer={DepartmentReducer}
                                 initialValue={initialDepartment}
                                 createService={createDepartment}
+                                editService={updateDepartment}
                                 componentName="department" />
                         </Route>
                         <Route path="/createjobtitle" >
@@ -71,7 +77,11 @@ const App = () => {
                                 reducer={JobTitleReducer}
                                 initialValue={initialJobTitle}
                                 createService={createJobTitle}
+                                editService={updateJobTitle}
                                 componentName="job-title" />
+                        </Route>
+                        <Route path="/editfield">
+                            <EditComponent />
                         </Route>
                     </Switch>
                 </Layout>

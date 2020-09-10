@@ -8,9 +8,9 @@ const Form = (props) => {
     const [formField, formFieldDispatch] = useReducer(props.reducer, props.initialValue)
     const submitHandler = async () => {
         event.preventDefault()
-        await props.createService(formField)
+        props.action === 'create' ? await props.createService(formField) :
+            props.action === 'update' ? await props.editService(formField) : null
         formFieldDispatch({ type: 'reset' })
-        console.log(formField)
     }
     return (
         <form onSubmit={submitHandler}>
@@ -39,6 +39,7 @@ Form.propTypes = {
     reducer: PropTypes.func,
     initialValue: PropTypes.object,
     createService: PropTypes.func,
+    editService: PropTypes.func,
     componentName: PropTypes.string,
 }
 
