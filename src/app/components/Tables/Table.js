@@ -8,26 +8,30 @@ const Table = (props) => {
     const employeeFields = (row) => [row.firstName, row.lastName, row.middleInitial]
     const nonEmployeeFields = (row) => [row.name]
 
+    const deleteRow = async (row) => {
+        await props.deleteHandler(row.id)
+        await props.fetchHandler()
+    }
+
     const displayRow = (row, key, isEmployee) => {
         let fields = isEmployee ? employeeFields : nonEmployeeFields
         return (
             <tr className={styles.row} key={row.id + key}>
                 {fields(row).map((field, col) => {
                     return (
-                        <td data-testid={`table-row-${key + 1}-column-${props.headers[col].toLowerCase().replace(' ', '-')}`} id={row.id}>
+                        <td key={field + row.id} data-testid={`table-row-${key + 1}-column-${props.headers[col].toLowerCase().replace(' ', '-')}`}>
                             {field}
                         </td>
                     )
                 })}
                 <td data-testid={`table-row-${key + 1}-column-${props.headers[fields(row).length].toLowerCase().replace(' ', '-')}`} className={styles.actions} id={key}>
-                    <Link to={{ pathname: '/editfield', state: { componentName: props.componentName, data: props.data[key], editService: props.editHandler } }} >
-                        <div data-testid={`row-${key + 1}-edit-link`}>Edit</div>
-                    </Link>
-                    <button data-testid={`row-${key + 1}-delete-button`}
-                        onClick={() => {
-                            props.deleteHandler(row.id)
-                            props.fetchHandler()
-                        }}>Delete</button>
+                    <div>
+                        <Link to={{ pathname: '/editfield', state: { componentType: props.componentName, formFieldData: props.data[key].id } }} >
+                            <div className={styles.edit} key={`row-${key}-edit`} data-testid={`row-${key + 1}-edit-link`}>Edit</div>
+                        </Link>
+                        <button key={`row-${key}-delete`} data-testid={`row-${key + 1}-delete-button`}
+                            onClick={() => deleteRow(row)}>Delete</button>
+                    </div>
                 </td>
             </tr>
         )
@@ -60,7 +64,8 @@ Table.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
     editHandler: PropTypes.func,
     deleteHandler: PropTypes.func,
-    fetchHandler: PropTypes.func
+    fetchHandler: PropTypes.func,
+    componentName: PropTypes.string
 }
 
 export default Table;

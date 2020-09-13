@@ -13,6 +13,8 @@ export default (state, action) => {
             return initialEmployee
         case 'update':
             return { ...state, [action.field]: action.value }
+        case 'set':
+            return action.data
         default:
             return state
     }

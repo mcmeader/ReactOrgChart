@@ -1,35 +1,56 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import PropTypes from 'prop-types'
 
 import styles from './Form.module.css';
 import FormField from '../FormField/FormField'
+import { useToasts } from 'react-toast-notifications';
 
 const Form = (props) => {
-    const [formField, formFieldDispatch] = useReducer(props.reducer, props.initialValue)
+    const { addToast } = useToasts()
+    const [inputField, updateInputField] = useReducer(props.reducer, props.initialReducerValue)
+
+    const fetchData = async () => {
+        let data = await props.getByIdService(props.action.id)
+        updateInputField({ type: 'set', data: data })
+    }
+
+    useEffect(() => {
+        fetchData()
+    }, [])
+
     const submitHandler = async () => {
         event.preventDefault()
-        props.action === 'create' ? await props.createService(formField) :
-            props.action === 'update' ? await props.editService(formField) : null
-        formFieldDispatch({ type: 'reset' })
+        try {
+            props.action.type === 'update' ? await props.updateService(inputField) : await props.createService(inputField)
+            addToast("Data submitted successfully", {
+                appearance: 'success',
+                autoDismiss: true
+            })
+            updateInputField({ type: 'reset' })
+        } catch (error) {
+            addToast("There was an issue submitting the data", {
+                appearance: 'error',
+                autoDismiss: true,
+            })
+        }
     }
+
     return (
-        <form onSubmit={submitHandler}>
-            <div className={styles.container}>
-                {props.formData.map((data, key) => {
-                    return (
-                        <FormField
-                            text={data.text}
-                            type={data.type}
-                            inputValue={formField}
-                            dispatch={formFieldDispatch}
-                            key={key}
-                            selectOptions={data.selectOptions}
-                            componentName={props.componentName}
-                        />
-                    )
-                })}
-                <input data-testid={`create-${props.componentName}-save-button`} type="submit" value="Save" />
-            </div>
+        <form onSubmit={submitHandler} className={styles.container}>
+            {props.formData.map((data, key) => {
+                return (
+                    <FormField
+                        key={key}
+                        text={data.text}
+                        type={data.type}
+                        inputValue={inputField}
+                        dispatch={updateInputField}
+                        selectOptions={data.selectOptions}
+                        componentName={props.componentName}
+                    />
+                )
+            })}
+            <input data-testid={`create-${props.componentName}-save-button`} type="submit" value="Save" />
         </form>
     );
 };
@@ -37,10 +58,12 @@ const Form = (props) => {
 Form.propTypes = {
     formData: PropTypes.arrayOf(Object),
     reducer: PropTypes.func,
-    initialValue: PropTypes.object,
+    initialReducerValue: PropTypes.object,
     createService: PropTypes.func,
-    editService: PropTypes.func,
+    updateService: PropTypes.func,
+    getByIdService: PropTypes.func,
     componentName: PropTypes.string,
+    action: PropTypes.object
 }
 
 export default Form

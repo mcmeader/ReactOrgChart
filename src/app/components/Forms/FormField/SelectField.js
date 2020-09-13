@@ -6,7 +6,7 @@ export const selectField = (props, field) => {
     selectChoices.unshift({ name: "-" })
 
     let testId = props.text.toLowerCase().replace(' ', '-')
-    testId = (props.componentName === "department" || props.componentName === "job-title") ? "name" : testId
+    testId = (props.componentName === "departments" || props.componentName === "job-titles") ? "name" : testId
 
     return (
         <select

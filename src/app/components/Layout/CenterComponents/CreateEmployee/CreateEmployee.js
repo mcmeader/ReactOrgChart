@@ -6,8 +6,12 @@ import Form from '../../../Forms/Form/Form';
 import { getEmployees } from '../../../../services/EmployeeService';
 import { getActiveDepartments } from '../../../../services/DepartmentService';
 import { getJobTitles } from '../../../../services/JobTitleService';
+import { getData } from '../../ImportHandler';
 
 const CreateEmployee = (props) => {
+    let { createService, editService, getByIdService, headerValues, reducer, initialValue } =
+        getData("employee")
+
     useEffect(() => {
         fetchData()
     }, [])
@@ -22,7 +26,7 @@ const CreateEmployee = (props) => {
         setJobTitles(await getJobTitles())
     }
 
-    let fields = [...props.headerValues]
+    let fields = [...headerValues]
     fields.pop()
 
     let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
@@ -35,19 +39,20 @@ const CreateEmployee = (props) => {
         <div className={styles.container}>
             <Form
                 formData={formFields}
-                reducer={props.reducer}
-                initialValue={props.initialValue}
-                createService={props.createService}
-                componentName="employee" />
+                reducer={reducer}
+                initialReducerValue={initialValue}
+                createService={createService}
+                updateService={editService}
+                getByIdService={getByIdService}
+                componentName={props.componentType}
+                action={{ value: "create", id: null }}
+            />
         </div>
     );
 };
 
 CreateEmployee.propTypes = {
-    headerValues: PropTypes.arrayOf(String),
-    reducer: PropTypes.func,
-    initialValue: PropTypes.object,
-    postCall: PropTypes.func
+    componentType: PropTypes.string,
 }
 
 export default CreateEmployee

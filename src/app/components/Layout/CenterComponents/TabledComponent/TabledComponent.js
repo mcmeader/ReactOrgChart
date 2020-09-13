@@ -3,8 +3,11 @@ import PropTypes from 'prop-types'
 
 import styles from './TabledComponent.module.css';
 import Table from '../../../Tables/Table'
+import { getData } from '../../ImportHandler';
 
 const TabledComponent = (props) => {
+    let { headerValues, getService, editService, deleteService } = getData(props.componentType)
+
     useEffect(() => {
         fetchData()
     }, [props.componentName])
@@ -12,27 +15,25 @@ const TabledComponent = (props) => {
     const [data, setData] = useState(null)
 
     const fetchData = async () => {
-        setData(await props.fetchData())
+        console.log("called fetch data")
+        setData(await getService())
+        console.log(data)
     }
-
     return (
         <div className={styles.container}>
             <Table
-                headers={props.headerValues}
+                headers={headerValues}
                 data={data}
-                editHandler={props.editHandler}
-                deleteHandler={props.deleteHandler}
-                fetchHandler={fetchData} />
+                editHandler={editService}
+                deleteHandler={deleteService}
+                fetchHandler={fetchData()}
+                componentName={props.componentType} />
         </div>
     );
 };
 
 TabledComponent.propTypes = {
-    headerValues: PropTypes.arrayOf(String),
-    fetchData: PropTypes.func,
-    editService: PropTypes.func,
-    deleteHandler: PropTypes.func,
-    componentName: PropTypes.string
+    componentType: PropTypes.string
 }
 
 export default TabledComponent

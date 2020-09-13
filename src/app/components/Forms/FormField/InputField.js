@@ -3,8 +3,7 @@ import styles from './FormField.module.css'
 
 export const inputField = (props, field) => {
     let testId = props.text.toLowerCase().replace(' ', '-')
-    testId = (props.componentName === "department" || props.componentName === "job-title") ? "name" : testId
-
+    testId = (props.componentName === "department" || props.componentName === "job-title" || props.componentName === undefined) ? "name" : testId
     return (
         <input
             data-testid={`create-${props.componentName}-${testId}`}

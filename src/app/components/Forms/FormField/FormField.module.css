@@ -1,9 +1,11 @@
 .container{
-    flex:1;
     margin-bottom:20px;
     margin-right:20px;
+    width: 100%;
+    flex-direction: row;
 }
+
 .input{
-    flex:1;
-    margin-left:100px;
+    float:right;
+    width:50%;
 }

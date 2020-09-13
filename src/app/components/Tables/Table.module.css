@@ -8,8 +8,18 @@
   }
   .container th{
     border: 2px solid white;
+    background-color: #525f6e;
   }
   .container tr{
     height:50px;
     flex-direction: row;
+  }
+
+  .container tr:nth-child(odd){
+    background-color: #525f6e;
+  }
+
+  .edit{ 
+    float:left;
+    padding-right: 15px;
   }

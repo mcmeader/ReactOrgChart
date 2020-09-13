@@ -1,13 +1,14 @@
 import React from 'react';
-import PropTypes from 'prop-types'
 
-import styles from './CreateComponent.module.css';
+import styles from './EditComponent.module.css';
 import Form from '../../../Forms/Form/Form';
 import { getData } from '../../ImportHandler';
+import { useLocation } from 'react-router-dom';
 
-const CreateComponent = (props) => {
-    let { headerValues, createService, editService, getByIdService, reducer, initialValue } =
-        getData(props.componentType)
+const EditComponent = () => {
+    let { formFieldData, componentType } = useLocation().state
+    let { headerValues, createService, editService, reducer, getByIdService, initialValue } =
+        getData(componentType)
     let fields = [...headerValues]
     fields.pop()
     let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
@@ -21,15 +22,11 @@ const CreateComponent = (props) => {
                 createService={createService}
                 updateService={editService}
                 getByIdService={getByIdService}
-                componentName={props.componentType}
-                action={{ value: "create", id: null }}
+                componentName={componentType}
+                action={{ value: "update", id: formFieldData }}
             />
         </div>
     );
 };
 
-CreateComponent.propTypes = {
-    componentType: PropTypes.string
-}
-
-export default CreateComponent
+export default EditComponent

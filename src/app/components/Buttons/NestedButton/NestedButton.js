@@ -15,13 +15,13 @@ const NestedButton = (props) => {
 
     return (
         <div className={styles.container}>
-            <Link to={routeMainValue}>
+            <Link className={styles.mainValueLink} to={routeMainValue}>
                 <div data-testid={`${testIdMainValue}-link`} className={styles.mainValue}>
                     {props.mainValue}
                 </div>
             </Link>
-            {((props.currentUrl === routeMainValue) || (props.currentUrl === routeSubValue)) ?
-                <Link to={routeSubValue}>
+            {(((props.currentUrl === routeMainValue) || (props.currentUrl === routeSubValue)) && props.subValue != null) ?
+                <Link className={styles.subValueLink} to={routeSubValue}>
                     <div data-testid={`${testIdSubValue}-link`} className={styles.subValue}>
                         {props.subValue}
                     </div>
@@ -34,8 +34,7 @@ const NestedButton = (props) => {
 NestedButton.propTypes = {
     mainValue: PropTypes.string,
     subValue: PropTypes.string,
-    clickHandler: PropTypes.func,
-    currentUrl: PropTypes.string
+    currentUrl: PropTypes.string,
 }
 
 export default NestedButton;
