@@ -15,6 +15,10 @@ const parseJson = (response) => {
             status: response.status,
             statusText: response.statusText,
             json,
+        })).catch((err) => resolve({
+            status: response.status,
+            statusText: response.statusText,
+            json: { message: "Invalid JSON Response" }
         }))
     )
 };

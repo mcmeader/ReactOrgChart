@@ -1,9 +1,10 @@
 import React, { useReducer, useEffect } from 'react';
+import { useToasts } from 'react-toast-notifications';
+import { useHistory, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import styles from './Form.module.css';
 import FormField from '../FormField/FormField'
-import { useToasts } from 'react-toast-notifications';
 
 const Form = (props) => {
     const { addToast } = useToasts()
@@ -15,7 +16,8 @@ const Form = (props) => {
     }
 
     useEffect(() => {
-        fetchData()
+        if (props.action.value === 'update')
+            fetchData()
     }, [])
 
     const submitHandler = async () => {
@@ -27,7 +29,8 @@ const Form = (props) => {
                 autoDismiss: true
             })
             updateInputField({ type: 'reset' })
-        } catch (error) {
+        } catch (err) {
+            console.log(err)
             addToast("There was an issue submitting the data", {
                 appearance: 'error',
                 autoDismiss: true,

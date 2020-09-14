@@ -10,14 +10,17 @@ const TabledComponent = (props) => {
 
     useEffect(() => {
         fetchData()
-    }, [props.componentName])
+    }, [props.componentType])
 
     const [data, setData] = useState(null)
 
     const fetchData = async () => {
-        console.log("called fetch data")
         setData(await getService())
-        console.log(data)
+    }
+
+    const deleteData = async (id) => {
+        await deleteService(id)
+        setData(await getService())
     }
     return (
         <div className={styles.container}>
@@ -26,7 +29,7 @@ const TabledComponent = (props) => {
                 data={data}
                 editHandler={editService}
                 deleteHandler={deleteService}
-                fetchHandler={fetchData()}
+                fetchHandler={deleteData}
                 componentName={props.componentType} />
         </div>
     );

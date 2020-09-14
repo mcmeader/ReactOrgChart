@@ -9,8 +9,13 @@ const Table = (props) => {
     const nonEmployeeFields = (row) => [row.name]
 
     const deleteRow = async (row) => {
-        await props.deleteHandler(row.id)
-        await props.fetchHandler()
+        await props.fetchHandler(row.id)
+    }
+
+    const generateTestId = (key, col) => {
+        let headers = props.headers[col]
+        let column = headers != null ? props.headers[col].toLowerCase().replace(' ', '-') : key
+        return `table-row-${key + 1}-column-${column}`
     }
 
     const displayRow = (row, key, isEmployee) => {
@@ -19,12 +24,12 @@ const Table = (props) => {
             <tr className={styles.row} key={row.id + key}>
                 {fields(row).map((field, col) => {
                     return (
-                        <td key={field + row.id} data-testid={`table-row-${key + 1}-column-${props.headers[col].toLowerCase().replace(' ', '-')}`}>
+                        <td key={field + row.id} data-testid={generateTestId(key, col)}>
                             {field}
                         </td>
                     )
                 })}
-                <td data-testid={`table-row-${key + 1}-column-${props.headers[fields(row).length].toLowerCase().replace(' ', '-')}`} className={styles.actions} id={key}>
+                <td data-testid={generateTestId(key, fields(row).length)} className={styles.actions} id={key}>
                     <div>
                         <Link to={{ pathname: '/editfield', state: { componentType: props.componentName, formFieldData: props.data[key].id } }} >
                             <div className={styles.edit} key={`row-${key}-edit`} data-testid={`row-${key + 1}-edit-link`}>Edit</div>

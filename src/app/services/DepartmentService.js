@@ -16,7 +16,7 @@ export const getDepartmentById = (departmentId) => {
 }
 
 export const createDepartment = (department) => {
-    doPost(serviceUrl, department)
+    return doPost(serviceUrl, department)
 }
 
 export const updateDepartment = (department) => {
