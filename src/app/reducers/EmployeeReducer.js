@@ -4,7 +4,8 @@ export const initialEmployee = {
     middleInitial: "",
     jobTitle: {},
     department: {},
-    manager: {}
+    manager: {},
+    isActive: true,
 }
 
 export default (state, action) => {

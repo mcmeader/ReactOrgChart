@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import styles from './Sidebar.module.css';
-import NestedButton from '../../Buttons/NestedButton/NestedButton'
+import NestedButton from '../../Buttons/NestedButton'
 import { useLocation } from 'react-router-dom';
 
 const Sidebar = (props) => {

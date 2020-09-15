@@ -29,7 +29,7 @@ const Table = (props) => {
                         </td>
                     )
                 })}
-                <td data-testid={generateTestId(key, fields(row).length)} className={styles.actions} id={key}>
+                <td data-testid={generateTestId(key, fields(row).length)} className={styles.actions}>
                     <div>
                         <Link to={{ pathname: '/editfield', state: { componentType: props.componentName, formFieldData: props.data[key].id } }} >
                             <div className={styles.edit} key={`row-${key}-edit`} data-testid={`row-${key + 1}-edit-link`}>Edit</div>

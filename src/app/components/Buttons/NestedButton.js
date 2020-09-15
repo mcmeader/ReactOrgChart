@@ -12,6 +12,7 @@ const NestedButton = (props) => {
     let testIdSubValue = (props.subValue != undefined && props.subValue != null) ? props.subValue.toLowerCase().trim().replaceAll(' ', '-') : ""
 
     routeMainValue = (routeMainValue === 'jobtitles') ? 'job-titles' : routeMainValue
+    routeMainValue = (routeMainValue === 'orgchart') ? '' : routeMainValue
 
     return (
         <div className={styles.container}>

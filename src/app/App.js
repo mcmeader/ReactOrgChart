@@ -16,8 +16,7 @@ const App = () => {
                 autoDismiss={true}>
                 <Layout>
                     <Switch>
-                        <Route exact path="/" />
-                        <Route path="/orgchart" component={OrgChart}>
+                        <Route exact path="/">
                             <OrgChart />
                         </Route>
                         <Route path="/employees">

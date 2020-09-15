@@ -1,7 +1,7 @@
 import { employeeTableHeaders } from '../../constants/EmployeeTableHeaders';
 import { jobTitleTableHeaders } from '../../constants/JobTitleTableHeaders';
 import { departmentTableHeaders } from '../../constants/DepartmentTableHeaders';
-import { getEmployees, createEmployee, deleteEmployee, updateEmployee, getEmployeeById } from '../../services/EmployeeService';
+import { getEmployees, createEmployee, deleteEmployee, updateEmployee, getEmployeeById, getEmployeesByManagerId, getArchivedEmployees } from '../../services/EmployeeService';
 import { getActiveDepartments, createDepartment, deleteDepartment, updateDepartment, getDepartmentById } from '../../services/DepartmentService';
 import { getJobTitles, createJobTitle, deleteJobTitle, updateJobTitle, getJobTitle } from '../../services/JobTitleService';
 import EmployeeReducer, { initialEmployee } from '../../reducers/EmployeeReducer';
@@ -14,7 +14,9 @@ export const getData = (type) => {
             return {
                 headerValues: employeeTableHeaders,
                 getService: getEmployees,
+                getArchivedService: getArchivedEmployees,
                 getByIdService: getEmployeeById,
+                getByManagerIdService: getEmployeesByManagerId,
                 createService: createEmployee,
                 editService: updateEmployee,
                 deleteService: deleteEmployee,

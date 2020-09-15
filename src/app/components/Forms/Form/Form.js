@@ -1,6 +1,5 @@
 import React, { useReducer, useEffect } from 'react';
 import { useToasts } from 'react-toast-notifications';
-import { useHistory, useParams } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import styles from './Form.module.css';
@@ -23,14 +22,13 @@ const Form = (props) => {
     const submitHandler = async () => {
         event.preventDefault()
         try {
-            props.action.type === 'update' ? await props.updateService(inputField) : await props.createService(inputField)
+            props.action.value === 'update' ? await props.updateService(inputField) : await props.createService(inputField)
             addToast("Data submitted successfully", {
                 appearance: 'success',
                 autoDismiss: true
             })
             updateInputField({ type: 'reset' })
         } catch (err) {
-            console.log(err)
             addToast("There was an issue submitting the data", {
                 appearance: 'error',
                 autoDismiss: true,
