@@ -17,6 +17,8 @@ export const getData = (type) => {
                 getArchivedService: getArchivedEmployees,
                 getByIdService: getEmployeeById,
                 getByManagerIdService: getEmployeesByManagerId,
+                getDepartment: getActiveDepartments,
+                getJobTitle: getJobTitles,
                 createService: createEmployee,
                 editService: updateEmployee,
                 deleteService: deleteEmployee,

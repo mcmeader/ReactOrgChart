@@ -2,19 +2,33 @@ import React from 'react';
 import PropTypes from 'prop-types'
 
 import styles from './FormField.module.css'
-import { selectField } from './SelectField';
-import { inputField } from './InputField';
+import SelectField from './SelectField';
+import InputField from './InputField';
 
 const FormField = (props) => {
     let field = props.text.replace(' ', '')
     field = field.charAt(0).toLowerCase() + field.slice(1);
     field = ((field === 'jobTitle' && props.componentName != "employee") || field === 'departmentName') ? 'name' : field;
+
     return (
         <div className={styles.container}>
             <label className={styles.text}>
                 {props.text}
             </label>
-            {props.type === "select" ? selectField(props, field) : inputField(props, field)}
+            {props.type === "select" ?
+                <SelectField
+                    componentName={props.componentName}
+                    selectOptions={props.selectOptions}
+                    dispatch={props.dispatch}
+                    text={props.text}
+                />
+                : <InputField
+                    inputValue={props.inputValue}
+                    componentName={props.componentName}
+                    text={props.text}
+                    type={props.type}
+                    field={field}
+                />}
         </div>
     );
 };

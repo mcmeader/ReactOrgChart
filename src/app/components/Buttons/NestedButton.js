@@ -6,13 +6,13 @@ import styles from './NestedButton.module.css'
 
 const NestedButton = (props) => {
     let routeMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '') : ""
+    routeMainValue = (routeMainValue === 'jobtitles') ? 'job-titles' : routeMainValue
+    routeMainValue = (routeMainValue === 'orgchart') ? '' : routeMainValue
+
     let routeSubValue = (props.subValue != undefined && props.subValue != null) ? props.subValue.toLowerCase().trim().replaceAll(' ', '') : ""
 
     let testIdMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '-') : ""
     let testIdSubValue = (props.subValue != undefined && props.subValue != null) ? props.subValue.toLowerCase().trim().replaceAll(' ', '-') : ""
-
-    routeMainValue = (routeMainValue === 'jobtitles') ? 'job-titles' : routeMainValue
-    routeMainValue = (routeMainValue === 'orgchart') ? '' : routeMainValue
 
     return (
         <div className={styles.container}>

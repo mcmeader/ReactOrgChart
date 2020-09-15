@@ -1,7 +1,9 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+
 import styles from './FormField.module.css'
 
-export const selectField = (props, field) => {
+const SelectField = (props) => {
     let selectChoices = [...props.selectOptions]
     selectChoices.unshift({ name: "-" })
 
@@ -25,3 +27,12 @@ export const selectField = (props, field) => {
         </select>
     )
 }
+
+SelectField.propTypes = {
+    componentName: PropTypes.string,
+    selectOptions: PropTypes.arrayOf(PropTypes.object),
+    dispatch: PropTypes.func,
+    text: PropTypes.string
+}
+
+export default SelectField;

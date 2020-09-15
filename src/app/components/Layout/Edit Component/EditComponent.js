@@ -1,16 +1,18 @@
 import React from 'react';
 
 import styles from './EditComponent.module.css';
-import Form from '../../../Forms/Form/Form';
-import { getData } from '../../ImportHandler';
+import Form from '../../Forms/Form/Form';
+import { getData } from '../ImportHandler';
 import { useLocation } from 'react-router-dom';
 
 const EditComponent = () => {
     let { formFieldData, componentType } = useLocation().state
     let { headerValues, createService, editService, reducer, getByIdService, initialValue } =
         getData(componentType)
+
     let fields = [...headerValues]
     fields.pop()
+
     let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
 
     return (

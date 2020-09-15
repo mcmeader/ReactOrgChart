@@ -6,11 +6,13 @@ export const initialEmployee = {
     department: {},
     manager: {},
     isActive: true,
+    isManager: false
 }
 
 export default (state, action) => {
     switch (action.type) {
         case 'reset':
+            console.log("state", state)
             return initialEmployee
         case 'update':
             return { ...state, [action.field]: action.value }

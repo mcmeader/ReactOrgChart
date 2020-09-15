@@ -14,11 +14,6 @@ const Form = (props) => {
         updateInputField({ type: 'set', data: data })
     }
 
-    useEffect(() => {
-        if (props.action.value === 'update')
-            fetchData()
-    }, [])
-
     const submitHandler = async () => {
         event.preventDefault()
         try {
@@ -35,6 +30,11 @@ const Form = (props) => {
             })
         }
     }
+
+    useEffect(() => {
+        if (props.action.value === 'update')
+            fetchData()
+    }, [])
 
     return (
         <form onSubmit={submitHandler} className={styles.container}>

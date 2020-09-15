@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './OrgChart.module.css'
-import OrgChartLayer from '../../../OrgChart/OrgChartLayer/OrgChartLayer'
-import { getData } from '../../ImportHandler';
+import OrgChartLayer from './OrgChartLayer/OrgChartLayer'
+import { getData } from '../ImportHandler'
 
 const OrgChart = () => {
     let { getByManagerIdService } = getData("employee")
@@ -17,15 +17,15 @@ const OrgChart = () => {
         setOrgChartLayers([...orgChartLayers, await getByManagerIdService(id)])
     }
 
-    const getEmployees = async (id) => await getByManagerIdService(id)
+    // const getEmployees = async (id) => await getByManagerIdService(id)
 
     const removeLayer = async (id) => {
         let employees = await getByManagerIdService(id)
 
-        let managedEmployees = employees.map(employee => {
-            console.log(employee.isManager)
-            return employee.employees ? getEmployees(employee.id) : null
-        })
+        // let managedEmployees = employees.map(employee => {
+        //     console.log(employee.isManager)
+        //     return employee.employees ? getEmployees(employee.id) : null
+        // })
 
         console.log(managedEmployees)
     }
