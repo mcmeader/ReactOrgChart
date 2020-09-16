@@ -32,9 +32,12 @@ const Form = (props) => {
     }
 
     useEffect(() => {
-        if (props.action.value === 'update')
+        if (props.action.value === 'update') {
             fetchData()
+        }
     }, [])
+
+    console.log("formData", props.formData)
 
     return (
         <form onSubmit={submitHandler} className={styles.container}>

@@ -53,10 +53,8 @@ const Table = (props) => {
             <tbody className={styles.body}>
                 {props.data != null ? props.data.map((row, key) => {
                     return (
-                        row.isActive === true ?
-                            (Object.keys(row).includes("firstName") ?
-                                displayRow(row, key, true) : displayRow(row, key, false))
-                            : null
+                        (Object.keys(row).includes("firstName") ?
+                            displayRow(row, key, true) : displayRow(row, key, false))
                     )
                 }) : null}
             </tbody>

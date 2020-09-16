@@ -16,7 +16,7 @@ const SelectField = (props) => {
             className={styles.input}
             onChange={event =>
                 props.dispatch({
-                    type: 'update', field: field, value: selectChoices.filter(choice => choice.id == event.target.value)[0]
+                    type: 'update', field: props.field, value: selectChoices.filter(choice => choice.id == event.target.value)[0]
                 })} >
             {
                 selectChoices.map((optionValue, key) => {
@@ -32,7 +32,8 @@ SelectField.propTypes = {
     componentName: PropTypes.string,
     selectOptions: PropTypes.arrayOf(PropTypes.object),
     dispatch: PropTypes.func,
-    text: PropTypes.string
+    text: PropTypes.string,
+    field: PropTypes.string
 }
 
 export default SelectField;

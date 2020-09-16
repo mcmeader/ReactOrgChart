@@ -10,6 +10,8 @@ const FormField = (props) => {
     field = field.charAt(0).toLowerCase() + field.slice(1);
     field = ((field === 'jobTitle' && props.componentName != "employee") || field === 'departmentName') ? 'name' : field;
 
+    console.log(props.selectOptions)
+
     return (
         <div className={styles.container}>
             <label className={styles.text}>
@@ -21,10 +23,12 @@ const FormField = (props) => {
                     selectOptions={props.selectOptions}
                     dispatch={props.dispatch}
                     text={props.text}
+                    field={field}
                 />
                 : <InputField
                     inputValue={props.inputValue}
                     componentName={props.componentName}
+                    dispatch={props.dispatch}
                     text={props.text}
                     type={props.type}
                     field={field}

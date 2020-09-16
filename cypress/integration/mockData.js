@@ -4,7 +4,8 @@ export default {
             id: 1,
             firstName: "Colin",
             lastName: "Chapman",
-            middleInitial: "A"
+            middleInitial: "A",
+            isActive: true
         }
     ],
     jobTitles: [

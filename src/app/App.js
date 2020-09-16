@@ -3,10 +3,9 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ToastProvider } from 'react-toast-notifications'
 
 import Layout from "./components/Layout";
-import CreateComponent from './components/Layout/CreateComponent/CreateComponent';
+import CreateEditComponent from './components/Layout/CreateEditComponent/CreateEditComponent';
 import TabledComponent from './components/Layout/TabledComponent/TabledComponent';
 import OrgChart from './components/Layout/OrgChart/OrgChart'
-import EditComponent from './components/Layout/Edit Component/EditComponent';
 
 const App = () => {
     return (
@@ -28,16 +27,16 @@ const App = () => {
                             <TabledComponent componentType="job-title" />
                         </Route>
                         <Route path="/createemployee">
-                            <CreateComponent componentType="employee" />
+                            <CreateEditComponent componentType="employee" />
                         </Route>
                         <Route exact path="/createdepartment" >
-                            <CreateComponent componentType="department" />
+                            <CreateEditComponent componentType="department" />
                         </Route>
                         <Route path="/createjobtitle" >
-                            <CreateComponent componentType="job-title" />
+                            <CreateEditComponent componentType="job-title" />
                         </Route>
                         <Route path="/editfield">
-                            <EditComponent />
+                            <CreateEditComponent />
                         </Route>
                     </Switch>
                 </Layout>

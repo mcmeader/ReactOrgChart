@@ -16,6 +16,7 @@ describe('Job Title Reducer', () => {
                 jobTitle: {},
                 department: {},
                 manager: {},
+                isActive: true
             }
         },
         {

@@ -1,18 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
-import styles from './CreateComponent.module.css';
-import Form from '../../Forms/Form/Form';
+import styles from './CreateEditComponent.module.css';
+import Form from './Forms/Form/Form';
 import { getData } from '../ImportHandler';
 
-const CreateComponent = (props) => {
+const CreateEditComponent = (props) => {
+    let formFieldData = null, componentType = null
+    let locationState = useLocation().state
+
+    if (locationState != null) {
+        formFieldData = locationState.formFieldData
+        componentType = locationState.componentType
+    }
+
+    let component = componentType != null ? componentType : props.componentType
+    let id = formFieldData != null ? formFieldData : null
+
     const [employees, setEmployees] = useState(["-"])
     const [departments, setDepartments] = useState(["-"])
     const [jobTitles, setJobTitles] = useState(["-"])
 
     let { headerValues, initialValue, reducer, getService, getDepartment, getJobTitle, getByIdService, createService, editService } =
-        getData(props.componentType)
+        getData(component)
 
+    let action = formFieldData != null ? 'update' : 'create'
     let fields = [...headerValues]
     fields.pop()
 
@@ -24,12 +37,12 @@ const CreateComponent = (props) => {
 
     useEffect(() => {
         if (props.componentType === 'employee')
-            fetchData()
+            fetchData(formFieldData)
     }, [])
 
     let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
 
-    if (props.componentType === 'employee') {
+    if (componentType === 'employee') {
         formFields = [...formFields,
         { text: "Manager", type: "select", selectOptions: employees },
         { text: "Department", type: "select", selectOptions: departments },
@@ -45,15 +58,15 @@ const CreateComponent = (props) => {
                 createService={createService}
                 updateService={editService}
                 getByIdService={getByIdService}
-                componentName={props.componentType}
-                action={{ value: "create", id: null }}
+                componentName={component}
+                action={{ value: action, id: id }}
             />
         </div>
     );
 };
 
-CreateComponent.propTypes = {
+CreateEditComponent.propTypes = {
     componentType: PropTypes.string
 }
 
-export default CreateComponent
+export default CreateEditComponent
