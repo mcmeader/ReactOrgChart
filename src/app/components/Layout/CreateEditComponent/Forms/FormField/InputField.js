@@ -15,8 +15,6 @@ const InputField = (props) => {
     let inputFieldIndex = inputFieldValues.findIndex(value => value[0] === inputField)
     let inputFieldValue = inputFieldValues[inputFieldIndex][1]
 
-    console.log(props)
-
     return (
         <input
             data-testid={`create-${props.componentName}-${testId}`}

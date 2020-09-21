@@ -36,13 +36,13 @@ const CreateEditComponent = (props) => {
     }
 
     useEffect(() => {
-        if (props.componentType === 'employee')
+        if (component === 'employee')
             fetchData(formFieldData)
     }, [])
 
     let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
 
-    if (componentType === 'employee') {
+    if (component === 'employee') {
         formFields = [...formFields,
         { text: "Manager", type: "select", selectOptions: employees },
         { text: "Department", type: "select", selectOptions: departments },

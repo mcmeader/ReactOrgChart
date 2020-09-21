@@ -10,7 +10,9 @@ const FormField = (props) => {
     field = field.charAt(0).toLowerCase() + field.slice(1);
     field = ((field === 'jobTitle' && props.componentName != "employee") || field === 'departmentName') ? 'name' : field;
 
-    console.log(props.selectOptions)
+    let currentField = Object.entries(props.inputValue).filter(value => value[0] === field)[0]
+    let selectedValue = (props.type === "select" && currentField != undefined) ?
+        (currentField[1] != null ? currentField[1].id : 0) : 0
 
     return (
         <div className={styles.container}>
@@ -24,6 +26,7 @@ const FormField = (props) => {
                     dispatch={props.dispatch}
                     text={props.text}
                     field={field}
+                    selectedValue={selectedValue}
                 />
                 : <InputField
                     inputValue={props.inputValue}
@@ -43,7 +46,7 @@ FormField.propTypes = {
     inputValue: PropTypes.object,
     dispatch: PropTypes.func,
     componentName: PropTypes.string,
-    selectOptions: PropTypes.arrayOf(PropTypes.object)
+    selectOptions: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default FormField;

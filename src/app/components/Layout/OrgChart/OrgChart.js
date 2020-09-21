@@ -4,45 +4,58 @@ import styles from './OrgChart.module.css'
 import OrgChartLayer from './OrgChartLayer/OrgChartLayer'
 import { getData } from '../ImportHandler'
 
+import { buildInitialOrgChart } from './OrgChartStartupFunctions';
+
 const OrgChart = () => {
-    let { getByManagerIdService } = getData("employee")
+    const [orgChart, setOrgChart] = useState([[{ data: [{ firstName: 'Nexient', lastName: 'Org Chart', middleInitial: null, jobTitle: { name: null } }], isVisible: true }]])
 
-    const [orgChartLayers, setOrgChartLayers] = useState([[{ firstName: 'Nexient', lastName: 'Org Chart', middleInitial: null, jobTitle: { name: null } }]])
-
-    const getInitialManager = async (id) => {
-        setOrgChartLayers([...orgChartLayers, await getByManagerIdService(id)])
+    const growTreeService = (employeeId) => {
+        let { getByManagerIdService } = getData("employee")
+        getByManagerIdService(employeeId)
+        let managedEmployees = [...orgChart]
+        let newOrgChart = managedEmployees.map(layer =>
+            layer.map(managedEmployees => {
+                if (managedEmployees.data[0].manager != null) {
+                    if (managedEmployees.data[0].manager.id == employeeId) {
+                        managedEmployees.isVisible = true
+                    }
+                }
+                return managedEmployees
+            }))
+        setOrgChart(newOrgChart)
     }
 
-    const getManagedEmployees = async (id) => {
-        setOrgChartLayers([...orgChartLayers, await getByManagerIdService(id)])
+    const pruneTreeService = (employeeId) => {
+        let employeeIdsToClose = [employeeId]
+        let managedEmployees = [...orgChart]
+        let newOrgChart = managedEmployees.map(layer =>
+            layer.map(managedEmployees => {
+                if (managedEmployees.data[0].manager != null) {
+                    employeeIdsToClose.forEach(id => {
+                        if (managedEmployees.data[0].manager.id == id) {
+                            managedEmployees.isVisible = false
+                            employeeIdsToClose = [...employeeIdsToClose, managedEmployees.data[0].id]
+                        }
+                    })
+                }
+                return managedEmployees
+            }))
+        setOrgChart(newOrgChart)
     }
 
-    // const getEmployees = async (id) => await getByManagerIdService(id)
-
-    const removeLayer = async (id) => {
-        let employees = await getByManagerIdService(id)
-
-        // let managedEmployees = employees.map(employee => {
-        //     console.log(employee.isManager)
-        //     return employee.employees ? getEmployees(employee.id) : null
-        // })
-
-        console.log(managedEmployees)
-    }
 
     useEffect(() => {
-        getInitialManager(0)
+        buildInitialOrgChart(orgChart, setOrgChart)
     }, [])
 
     return (
         <div className={styles.container}>
-            {orgChartLayers.map((layer, key) =>
+            {orgChart.map((layer, key) =>
                 <OrgChartLayer
                     key={key}
                     layerData={layer}
-                    branchLevel={key}
-                    growTreeService={getManagedEmployees}
-                    pruneTreeService={removeLayer}
+                    growTreeService={growTreeService}
+                    pruneTreeService={pruneTreeService}
                 />)}
         </div>
     );

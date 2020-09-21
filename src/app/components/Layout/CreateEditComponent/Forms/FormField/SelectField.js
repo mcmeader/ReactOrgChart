@@ -5,7 +5,7 @@ import styles from './FormField.module.css'
 
 const SelectField = (props) => {
     let selectChoices = [...props.selectOptions]
-    selectChoices.unshift({ name: "-" })
+    selectChoices.unshift({ name: "-", id: 0 })
 
     let testId = props.text.toLowerCase().replace(' ', '-')
     testId = (props.componentName === "departments" || props.componentName === "job-titles") ? "name" : testId
@@ -14,9 +14,10 @@ const SelectField = (props) => {
         <select
             data-testid={`create-${props.componentName}-${testId}`}
             className={styles.input}
+            value={props.selectedValue}
             onChange={event =>
                 props.dispatch({
-                    type: 'update', field: props.field, value: selectChoices.filter(choice => choice.id == event.target.value)[0]
+                    type: 'update', field: props.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]
                 })} >
             {
                 selectChoices.map((optionValue, key) => {
@@ -33,7 +34,8 @@ SelectField.propTypes = {
     selectOptions: PropTypes.arrayOf(PropTypes.object),
     dispatch: PropTypes.func,
     text: PropTypes.string,
-    field: PropTypes.string
+    field: PropTypes.string,
+    selectedValue: PropTypes.number,
 }
 
 export default SelectField;

@@ -37,8 +37,6 @@ const Form = (props) => {
         }
     }, [])
 
-    console.log("formData", props.formData)
-
     return (
         <form onSubmit={submitHandler} className={styles.container}>
             {props.formData.map((data, key) => {

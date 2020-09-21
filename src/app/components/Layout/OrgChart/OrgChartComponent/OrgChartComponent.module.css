@@ -1,4 +1,5 @@
 .container{
+    flex-direction: row;
     display: inline-block;
     margin-right: 30px;
 }

@@ -1,27 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types'
 
-import OrgChartComponent from '../OrgChartComponent/OrgChartComponent';
 import styles from './OrgChartLayer.module.css'
+import OrgChartManagedEmployees from '../OrgChartManagedEmployees/OrgChartManagedEmployees';
 
 const OrgChartLayer = (props) => {
+    //console.log("layerData", props.layerData)
     return (
         <div className={styles.container}>
-            {props.layerData.map((layer, key) =>
-                <OrgChartComponent
+            {props.layerData.map((group, key) =>
+                <OrgChartManagedEmployees
                     key={key}
-                    employeeName={layer.firstName + (layer.middleInitial != null ? " " + layer.middleInitial + " " : " ") + layer.lastName}
-                    employeeTitle={layer.jobTitle.name}
-                    employeeId={layer.id}
+                    groupedData={group}
                     growTreeService={props.growTreeService}
-                    pruneTreeService={props.pruneTreeService} />
+                    pruneTreeService={props.pruneTreeService}
+                />
             )}
         </div>
     );
 };
 
 OrgChartLayer.propTypes = {
-    layerData: PropTypes.arrayOf(PropTypes.object),
+    layerData: PropTypes.any,
+    componentGroupToDisplay: PropTypes.any,
     growTreeService: PropTypes.func,
     pruneTreeService: PropTypes.func,
 }

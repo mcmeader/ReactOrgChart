@@ -16,19 +16,27 @@ const OrgChartComponent = (props) => {
     let buttonText = props.employeeName != 'Nexient Org Chart' ?
         (employeeExpanded ? 'Hide Employees' : 'Show Employees') : null
 
+    const content = () => {
+        return (
+            <div>
+                <div data-testid={`${props.employeeId}-display-name`}>
+                    {props.employeeName}
+                </div>
+                <div data-testid={`${props.employeeId}-job-title`}>
+                    {props.employeeTitle}
+                </div>
+                <OrgChartButton
+                    buttonText={buttonText}
+                    employeeId={props.employeeId}
+                    isExpanded={employeeExpanded}
+                    toggleExpanded={toggleExpanded} />
+            </div>
+        )
+    }
+
     return (
         <div className={styles.container}>
-            <div data-testid={`${props.employeeId}-display-name`}>
-                {props.employeeName}
-            </div>
-            <div data-testid={`${props.employeeId}-job-title`}>
-                {props.employeeTitle}
-            </div>
-            <OrgChartButton
-                buttonText={buttonText}
-                employeeId={props.employeeId}
-                isExpanded={employeeExpanded}
-                toggleExpanded={toggleExpanded} />
+            {props.displayComponent ? content() : null}
         </div>
     );
 };
@@ -36,6 +44,7 @@ const OrgChartComponent = (props) => {
 OrgChartComponent.propTypes = {
     employeeName: PropTypes.string,
     employeeTitle: PropTypes.string,
+    displayComponent: PropTypes.bool,
     employeeId: PropTypes.number,
     growTreeService: PropTypes.func,
     pruneTreeService: PropTypes.func
