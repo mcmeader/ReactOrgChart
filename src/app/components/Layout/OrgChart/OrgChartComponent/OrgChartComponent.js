@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 
 import styles from './OrgChartComponent.module.css'
@@ -15,6 +15,10 @@ const OrgChartComponent = (props) => {
 
     let buttonText = props.employeeName != 'Nexient Org Chart' ?
         (employeeExpanded ? 'Hide Employees' : 'Show Employees') : null
+
+    useEffect(() => {
+        setEmployeeExpanded(false)
+    }, [props.displayComponent])
 
     const content = () => {
         return (

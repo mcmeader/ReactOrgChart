@@ -8,7 +8,6 @@ const getOrgChartData = async () => {
 
     while (layerLength > 0) {
         let layer = currentLevel.map(async element => {
-            console.log(element)
             return (
                 await getByManagerIdService(element.id))
         })
