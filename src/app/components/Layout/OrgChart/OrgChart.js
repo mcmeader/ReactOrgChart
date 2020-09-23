@@ -2,50 +2,45 @@ import React, { useEffect, useState } from 'react';
 
 import styles from './OrgChart.module.css'
 import OrgChartLayer from './OrgChartLayer/OrgChartLayer'
+import { getLayerOfEmployee, getInitialManager, getManagedEmployees, removeAllUnusedEmployees } from './OrgChartFunctions'
 import { getData } from '../ImportHandler'
 
-import { buildInitialOrgChart } from './OrgChartStartupFunctions';
-
 const OrgChart = () => {
-    const [orgChart, setOrgChart] = useState([[{ data: [{ firstName: 'Nexient', lastName: 'Org Chart', middleInitial: null, jobTitle: { name: null } }], isVisible: true }]])
+    let { getByManagerIdService } = getData("employee")
 
-    const growTreeService = (employeeId) => {
-        let { getByManagerIdService } = getData("employee")
-        getByManagerIdService(employeeId)
-        let managedEmployees = [...orgChart]
-        let newOrgChart = managedEmployees.map(layer =>
-            layer.map(managedEmployees => {
-                if (managedEmployees.data[0].manager != null) {
-                    if (managedEmployees.data[0].manager.id == employeeId) {
-                        managedEmployees.isVisible = true
-                    }
-                }
-                return managedEmployees
-            }))
+    const [orgChart, setOrgChart] = useState([[[{ firstName: 'Nexient', lastName: 'Org Chart', middleInitial: null, jobTitle: { name: null } }]]])
+
+    const growTreeService = async (employeeId) => {
+        let newOrgChart = [...orgChart]
+        let layerIndex = getLayerOfEmployee(orgChart, employeeId)
+        let newEmployees = await getByManagerIdService(employeeId)
+        newEmployees = [].concat(...newEmployees)
+        if (newEmployees.length > 0) {
+            if ((layerIndex == orgChart.length - 1)) {
+                newOrgChart = [...newOrgChart, [newEmployees]]
+            } else {
+                newOrgChart[layerIndex + 1] = [...newOrgChart[layerIndex + 1], newEmployees]
+            }
+        }
         setOrgChart(newOrgChart)
     }
 
-    const pruneTreeService = (employeeId) => {
-        let employeeIdsToClose = [employeeId]
-        let managedEmployees = [...orgChart]
-        let newOrgChart = managedEmployees.map(layer =>
-            layer.map(managedEmployees => {
-                if (managedEmployees.data[0].manager != null) {
-                    employeeIdsToClose.forEach(id => {
-                        if (managedEmployees.data[0].manager.id == id) {
-                            managedEmployees.isVisible = false
-                            employeeIdsToClose = [...employeeIdsToClose, managedEmployees.data[0].id]
-                        }
-                    })
-                }
-                return managedEmployees
-            }))
+    const pruneTreeService = async (employeeId) => {
+        let managedEmployees = await getManagedEmployees(employeeId)
+        managedEmployees = [].concat(...managedEmployees)
+        let newOrgChart = orgChart.map(layer =>
+            layer.map(array => array.filter(data =>
+                !managedEmployees.some(employee =>
+                    employee.id == data.id)
+            )
+            )
+        )
+        removeAllUnusedEmployees(newOrgChart)
         setOrgChart(newOrgChart)
     }
-
 
     useEffect(() => {
-        buildInitialOrgChart(orgChart, setOrgChart)
+        getInitialManager(orgChart, setOrgChart)
     }, [])
 
     return (

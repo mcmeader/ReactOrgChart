@@ -20,8 +20,8 @@ const OrgChartComponent = (props) => {
         setEmployeeExpanded(false)
     }, [props.displayComponent])
 
-    const content = () => {
-        return (
+    return (
+        <div className={styles.container}>
             <div>
                 <div data-testid={`${props.employeeId}-display-name`}>
                     {props.employeeName}
@@ -35,12 +35,6 @@ const OrgChartComponent = (props) => {
                     isExpanded={employeeExpanded}
                     toggleExpanded={toggleExpanded} />
             </div>
-        )
-    }
-
-    return (
-        <div className={styles.container}>
-            {props.displayComponent ? content() : null}
         </div>
     );
 };
