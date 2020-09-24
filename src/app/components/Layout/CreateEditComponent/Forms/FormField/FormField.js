@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 
 import styles from './FormField.module.css'
@@ -6,13 +6,15 @@ import SelectField from './SelectField';
 import InputField from './InputField';
 
 const FormField = (props) => {
+    let [selectedValue, setSelectedValue] = useState('0')
+
     let field = props.text.replace(' ', '')
     field = field.charAt(0).toLowerCase() + field.slice(1);
     field = ((field === 'jobTitle' && props.componentName != "employee") || field === 'departmentName') ? 'name' : field;
 
-    let currentField = Object.entries(props.inputValue).filter(value => value[0] === field)[0]
-    let selectedValue = (props.type === "select" && currentField != undefined) ?
-        (currentField[1] != null ? currentField[1].id : 0) : 0
+    useEffect(() => {
+        setSelectedValue('0')
+    }, [props.selectOptions])
 
     return (
         <div className={styles.container}>
@@ -27,6 +29,7 @@ const FormField = (props) => {
                     text={props.text}
                     field={field}
                     selectedValue={selectedValue}
+                    onSelectValue={setSelectedValue}
                 />
                 : <InputField
                     inputValue={props.inputValue}

@@ -21,11 +21,11 @@ const Table = (props) => {
     const displayRow = (row, key, isEmployee) => {
         let fields = isEmployee ? employeeFields : nonEmployeeFields
         return (
-            <tr className={styles.row} key={row.id + key}>
+            <tr className={styles.row} key={row.id + key + isEmployee}>
                 {fields(row).map((field, col) => {
                     return (
-                        <td key={field + row.id} data-testid={generateTestId(key, col)}>
-                            {field}
+                        <td key={col + row.id} data-testid={generateTestId(key, col)}>
+                            {(field === null || field === '') ? '-' : field}
                         </td>
                     )
                 })}
@@ -46,17 +46,20 @@ const Table = (props) => {
         <table className={styles.container}>
             <thead className={styles.header}>
                 <tr>
-                    {props.headers != null ?
-                        props.headers.map((header, key) => { return (<th data-testid={`table-header-${header.toLowerCase().replace(' ', '-')}`} key={key}>{header}</th>) }) : <th key="error" > Error Loading Data</th>}
+                    {props.headers.map((header, key) => {
+                        return (<th data-testid={`table-header-${header.toLowerCase().replace(' ', '-')}`} key={header + key}>
+                            {header}
+                        </th>)
+                    })}
                 </tr>
             </thead>
             <tbody className={styles.body}>
-                {props.data != null ? props.data.map((row, key) => {
-                    return (
+                {props.data != null ? props.data.map((row, key) =>
+                    row.isActive != false ?
                         (Object.keys(row).includes("firstName") ?
                             displayRow(row, key, true) : displayRow(row, key, false))
-                    )
-                }) : null}
+                        : null
+                ) : null}
             </tbody>
         </table>
     )

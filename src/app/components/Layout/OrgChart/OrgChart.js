@@ -13,13 +13,23 @@ const OrgChart = () => {
     const growTreeService = async (employeeId) => {
         let newOrgChart = [...orgChart]
         let layerIndex = getLayerOfEmployee(orgChart, employeeId)
+        let checkIndex = [].concat(...orgChart[layerIndex])
+        let employeeIndex = checkIndex.findIndex(employee => employee.id == employeeId)
+
         let newEmployees = await getByManagerIdService(employeeId)
         newEmployees = [].concat(...newEmployees)
         if (newEmployees.length > 0) {
             if ((layerIndex == orgChart.length - 1)) {
-                newOrgChart = [...newOrgChart, [newEmployees]]
+                let allLastLevelEmployeesSize = [].concat(...orgChart[layerIndex]).length
+                let newLayer = new Array(allLastLevelEmployeesSize).fill([{ firstName: null, lastName: null, jobTitle: { name: null } }])
+                if (newEmployees.length > allLastLevelEmployeesSize) {
+                    newOrgChart = [...newOrgChart, [newEmployees]]
+                } else {
+                    newLayer[employeeIndex] = newEmployees
+                    newOrgChart = [...newOrgChart, newLayer]
+                }
             } else {
-                newOrgChart[layerIndex + 1] = [...newOrgChart[layerIndex + 1], newEmployees]
+                newOrgChart[layerIndex + 1][employeeIndex] = newEmployees
             }
         }
         setOrgChart(newOrgChart)
@@ -28,6 +38,7 @@ const OrgChart = () => {
     const pruneTreeService = async (employeeId) => {
         let managedEmployees = await getManagedEmployees(employeeId)
         managedEmployees = [].concat(...managedEmployees)
+
         let newOrgChart = orgChart.map(layer =>
             layer.map(array => array.filter(data =>
                 !managedEmployees.some(employee =>
@@ -35,7 +46,19 @@ const OrgChart = () => {
             )
             )
         )
-        removeAllUnusedEmployees(newOrgChart)
+
+        let shouldCleanUp = newOrgChart[newOrgChart.length - 1].some(group => {
+            console.log(group)
+            return (group.some(data => {
+                console.log(data)
+                return (data.name != null)
+            }))
+        })
+
+        console.log(shouldCleanUp)
+        if (!shouldCleanUp) {
+            removeAllUnusedEmployees(newOrgChart)
+        }
         setOrgChart(newOrgChart)
     }
 

@@ -15,10 +15,13 @@ const SelectField = (props) => {
             data-testid={`create-${props.componentName}-${testId}`}
             className={styles.input}
             value={props.selectedValue}
-            onChange={event =>
+            onChange={event => {
+                console.log(event.target.value)
+                props.onSelectValue(event.target.value)
                 props.dispatch({
                     type: 'update', field: props.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]
-                })} >
+                })
+            }} >
             {
                 selectChoices.map((optionValue, key) => {
                     let selectText = Object.keys(optionValue).includes("firstName") ? optionValue.firstName + " " + optionValue.lastName : optionValue.name
@@ -35,7 +38,8 @@ SelectField.propTypes = {
     dispatch: PropTypes.func,
     text: PropTypes.string,
     field: PropTypes.string,
-    selectedValue: PropTypes.number,
+    selectedValue: PropTypes.string,
+    onSelectValue: PropTypes.func,
 }
 
 export default SelectField;

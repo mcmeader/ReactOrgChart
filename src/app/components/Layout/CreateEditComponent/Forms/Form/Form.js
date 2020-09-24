@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useToasts } from 'react-toast-notifications';
 import PropTypes from 'prop-types'
 
@@ -7,23 +7,24 @@ import FormField from '../FormField/FormField'
 
 const Form = (props) => {
     const { addToast } = useToasts()
-    const [inputField, updateInputField] = useReducer(props.reducer, props.initialReducerValue)
 
     const fetchData = async () => {
         let data = await props.getByIdService(props.action.id)
-        updateInputField({ type: 'set', data: data })
+        props.reducer({ type: 'set', data: data })
     }
 
     const submitHandler = async () => {
         event.preventDefault()
         try {
-            props.action.value === 'update' ? await props.updateService(inputField) : await props.createService(inputField)
+            props.action.value === 'update' ? await props.updateService(props.reducerValue) : await props.createService(props.reducerValue)
             addToast("Data submitted successfully", {
                 appearance: 'success',
                 autoDismiss: true
             })
-            updateInputField({ type: 'reset' })
+            props.reducer({ type: 'reset' })
+            props.fetchData()
         } catch (err) {
+            console.log(err)
             addToast("There was an issue submitting the data", {
                 appearance: 'error',
                 autoDismiss: true,
@@ -45,8 +46,8 @@ const Form = (props) => {
                         key={key}
                         text={data.text}
                         type={data.type}
-                        inputValue={inputField}
-                        dispatch={updateInputField}
+                        inputValue={props.reducerValue}
+                        dispatch={props.reducer}
                         selectOptions={data.selectOptions}
                         componentName={props.componentName}
                     />
@@ -59,13 +60,14 @@ const Form = (props) => {
 
 Form.propTypes = {
     formData: PropTypes.arrayOf(Object),
+    reducerValue: PropTypes.object,
     reducer: PropTypes.func,
-    initialReducerValue: PropTypes.object,
     createService: PropTypes.func,
     updateService: PropTypes.func,
     getByIdService: PropTypes.func,
     componentName: PropTypes.string,
-    action: PropTypes.object
+    action: PropTypes.object,
+    fetchData: PropTypes.func,
 }
 
 export default Form

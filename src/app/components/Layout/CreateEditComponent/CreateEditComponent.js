@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { useLocation } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
@@ -18,12 +18,13 @@ const CreateEditComponent = (props) => {
     let component = componentType != null ? componentType : props.componentType
     let id = formFieldData != null ? formFieldData : null
 
-    const [employees, setEmployees] = useState(["-"])
-    const [departments, setDepartments] = useState(["-"])
-    const [jobTitles, setJobTitles] = useState(["-"])
-
     let { headerValues, initialValue, reducer, getService, getDepartment, getJobTitle, getByIdService, createService, editService } =
         getData(component)
+
+    const [employees, setEmployees] = useState([{ name: "-" }])
+    const [departments, setDepartments] = useState([{ name: "-" }])
+    const [jobTitles, setJobTitles] = useState([{ name: "-" }])
+    const [inputField, updateInputField] = useReducer(reducer, initialValue)
 
     let action = formFieldData != null ? 'update' : 'create'
     let fields = [...headerValues]
@@ -53,13 +54,14 @@ const CreateEditComponent = (props) => {
         <div className={styles.container}>
             <Form
                 formData={formFields}
-                reducer={reducer}
-                initialReducerValue={initialValue}
+                reducer={updateInputField}
+                reducerValue={inputField}
                 createService={createService}
                 updateService={editService}
                 getByIdService={getByIdService}
                 componentName={component}
                 action={{ value: action, id: id }}
+                fetchData={fetchData}
             />
         </div>
     );
