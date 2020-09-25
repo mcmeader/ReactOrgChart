@@ -5,7 +5,6 @@ import styles from './OrgChartLayer.module.css'
 import OrgChartManagedEmployees from '../OrgChartManagedEmployees/OrgChartManagedEmployees';
 
 const OrgChartLayer = (props) => {
-    console.log(props.layerData)
     return (
         <div className={styles.container}>
             {props.layerData.map((group, key) =>

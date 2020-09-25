@@ -22,7 +22,8 @@ const Form = (props) => {
                 autoDismiss: true
             })
             props.reducer({ type: 'reset' })
-            props.fetchData()
+            if (props.componentName === 'employee')
+                props.fetchData()
         } catch (err) {
             console.log(err)
             addToast("There was an issue submitting the data", {

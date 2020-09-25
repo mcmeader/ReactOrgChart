@@ -22,21 +22,19 @@ const OrgChartComponent = (props) => {
 
     return (
         <div className={styles.container}>
-            {(props.employeeName != 'null null' || props.employeeTitle != null) ?
-                <div>
-                    <div data-testid={`${props.employeeId}-display-name`}>
-                        {props.employeeName}
-                    </div>
-                    <div data-testid={`${props.employeeId}-job-title`}>
-                        {props.employeeTitle}
-                    </div>
-                    <OrgChartButton
-                        buttonText={buttonText}
-                        employeeId={props.employeeId}
-                        isExpanded={employeeExpanded}
-                        toggleExpanded={toggleExpanded} />
+            <div>
+                <div data-testid={`${props.employeeId}-display-name`}>
+                    {props.employeeName}
                 </div>
-                : null}
+                <div data-testid={`${props.employeeId}-job-title`}>
+                    {props.employeeTitle}
+                </div>
+                <OrgChartButton
+                    buttonText={buttonText}
+                    employeeId={props.employeeId}
+                    isExpanded={employeeExpanded}
+                    toggleExpanded={toggleExpanded} />
+            </div>
         </div>
     );
 };
