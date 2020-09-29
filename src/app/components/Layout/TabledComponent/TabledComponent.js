@@ -19,6 +19,10 @@ const TabledComponent = (props) => {
         setData(await getService())
     }
 
+    const getFields = (row) => {
+        return props.componentType === 'employee' ? [row.firstName, row.lastName, row.middleInitial] : [row.name]
+    }
+
     useEffect(() => {
         fetchData()
     }, [props.componentType])
@@ -28,9 +32,9 @@ const TabledComponent = (props) => {
             <Table
                 headers={headerValues}
                 data={data}
-                editHandler={editService}
-                deleteHandler={deleteService}
-                fetchHandler={deleteData}
+                deleteData={deleteData}
+                fetchData={fetchData}
+                getFields={getFields}
                 componentName={props.componentType} />
         </div>
     );

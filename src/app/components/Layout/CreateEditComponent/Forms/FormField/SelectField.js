@@ -4,28 +4,23 @@ import PropTypes from 'prop-types'
 import styles from './FormField.module.css'
 
 const SelectField = (props) => {
-    let selectChoices = [...props.selectOptions]
+    let selectChoices = [...props.data.selectOptions]
     selectChoices.unshift({ name: "-", id: 0 })
-
-    let testId = props.text.toLowerCase().replace(' ', '-')
-    testId = (props.componentName === "departments" || props.componentName === "job-titles") ? "name" : testId
 
     return (
         <select
-            data-testid={`create-${props.componentName}-${testId}`}
+            data-testid={`create-${props.generateTestId(props.data.text)}`}
             className={styles.input}
             value={props.selectedValue}
             onChange={event => {
-                console.log(event.target.value)
-                props.onSelectValue(event.target.value)
-                props.dispatch({
-                    type: 'update', field: props.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]
+                props.selectedValueFunction(event.target.value)
+                props.inputFieldFunction({
+                    type: 'update', field: props.data.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]
                 })
             }} >
             {
                 selectChoices.map((optionValue, key) => {
-                    let selectText = Object.keys(optionValue).includes("firstName") ? optionValue.firstName + " " + optionValue.lastName : optionValue.name
-                    return (<option key={key} value={optionValue.id}> {selectText}</option>)
+                    return (<option key={key} value={optionValue.id}> {props.data.selectValueDisplayed(optionValue)}</option>)
                 })
             }
         </select>
@@ -33,13 +28,14 @@ const SelectField = (props) => {
 }
 
 SelectField.propTypes = {
-    componentName: PropTypes.string,
-    selectOptions: PropTypes.arrayOf(PropTypes.object),
-    dispatch: PropTypes.func,
-    text: PropTypes.string,
-    field: PropTypes.string,
+    data: PropTypes.object,
+    selectValue: PropTypes.object,
+    generateTestId: PropTypes.func,
+    inputFieldValue: PropTypes.object,
+    inputFieldFunction: PropTypes.func,
     selectedValue: PropTypes.string,
-    onSelectValue: PropTypes.func,
+    selectedValueFunction: PropTypes.func,
+    componentName: PropTypes.string
 }
 
 export default SelectField;

@@ -5,11 +5,8 @@ import PropTypes from 'prop-types'
 import styles from './Table.module.css'
 
 const Table = (props) => {
-    const employeeFields = (row) => [row.firstName, row.lastName, row.middleInitial]
-    const nonEmployeeFields = (row) => [row.name]
-
     const deleteRow = async (row) => {
-        await props.fetchHandler(row.id)
+        await props.deleteData(row.id)
     }
 
     const generateTestId = (key, col) => {
@@ -18,18 +15,18 @@ const Table = (props) => {
         return `table-row-${key + 1}-column-${column}`
     }
 
-    const displayRow = (row, key, isEmployee) => {
-        let fields = isEmployee ? employeeFields : nonEmployeeFields
+    const displayRow = (row, key) => {
+        let displayFields = props.getFields(row)
         return (
-            <tr className={styles.row} key={row.id + key + isEmployee}>
-                {fields(row).map((field, col) => {
+            <tr className={styles.row} key={row.id + key}>
+                {displayFields.map((field, col) => {
                     return (
                         <td key={col + row.id} data-testid={generateTestId(key, col)}>
                             {(field === null || field === '') ? '-' : field}
                         </td>
                     )
                 })}
-                <td data-testid={generateTestId(key, fields(row).length)} className={styles.actions}>
+                <td data-testid={generateTestId(key, displayFields.length)} className={styles.actions}>
                     <div>
                         <Link to={{ pathname: '/editfield', state: { componentType: props.componentName, formFieldData: props.data[key].id } }} >
                             <div className={styles.edit} key={`row-${key}-edit`} data-testid={`row-${key + 1}-edit-link`}>Edit</div>
@@ -55,11 +52,7 @@ const Table = (props) => {
             </thead>
             <tbody className={styles.body}>
                 {props.data != null ? props.data.map((row, key) =>
-                    row.isActive != false ?
-                        (Object.keys(row).includes("firstName") ?
-                            displayRow(row, key, true) : displayRow(row, key, false))
-                        : null
-                ) : null}
+                    row.isActive != false ? displayRow(row, key) : null) : null}
             </tbody>
         </table>
     )
@@ -68,9 +61,9 @@ const Table = (props) => {
 Table.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.string),
     data: PropTypes.arrayOf(PropTypes.object),
-    editHandler: PropTypes.func,
+    getFields: PropTypes.func,
     deleteHandler: PropTypes.func,
-    fetchHandler: PropTypes.func,
+    fetchData: PropTypes.func,
     componentName: PropTypes.string
 }
 

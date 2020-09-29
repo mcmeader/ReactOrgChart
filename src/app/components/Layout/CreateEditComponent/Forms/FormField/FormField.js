@@ -7,49 +7,42 @@ import InputField from './InputField';
 
 const FormField = (props) => {
     let [selectedValue, setSelectedValue] = useState('0')
-
-    let field = props.text.replace(' ', '')
-    field = field.charAt(0).toLowerCase() + field.slice(1);
-    field = ((field === 'jobTitle' && props.componentName != "employee") || field === 'departmentName') ? 'name' : field;
-
     useEffect(() => {
         setSelectedValue('0')
-    }, [props.selectOptions])
+    }, [props.data.selectOptions])
 
     return (
         <div className={styles.container}>
             <label className={styles.text}>
-                {props.text}
+                {props.data.text}
             </label>
-            {props.type === "select" ?
+            {props.data.type === "select" ?
                 <SelectField
+                    data={props.data}
+                    generateTestId={props.generateTestId}
+                    inputFieldValue={props.inputFieldValue}
+                    inputFieldFunction={props.inputFieldFunction}
                     componentName={props.componentName}
-                    selectOptions={props.selectOptions}
-                    dispatch={props.dispatch}
-                    text={props.text}
-                    field={field}
                     selectedValue={selectedValue}
-                    onSelectValue={setSelectedValue}
+                    selectedValueFunction={setSelectedValue}
                 />
                 : <InputField
-                    inputValue={props.inputValue}
+                    data={props.data}
+                    generateTestId={props.generateTestId}
+                    inputFieldValue={props.inputFieldValue}
+                    inputFieldFunction={props.inputFieldFunction}
                     componentName={props.componentName}
-                    dispatch={props.dispatch}
-                    text={props.text}
-                    type={props.type}
-                    field={field}
                 />}
         </div>
     );
 };
 
 FormField.propTypes = {
-    text: PropTypes.string,
-    type: PropTypes.string,
-    inputValue: PropTypes.object,
-    dispatch: PropTypes.func,
+    data: PropTypes.object,
+    generateTestId: PropTypes.func,
+    inputFieldValue: PropTypes.object,
+    inputFieldFunction: PropTypes.func,
     componentName: PropTypes.string,
-    selectOptions: PropTypes.arrayOf(PropTypes.object),
 }
 
 export default FormField;

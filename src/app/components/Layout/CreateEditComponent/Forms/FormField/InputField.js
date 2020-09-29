@@ -4,26 +4,19 @@ import PropTypes from 'prop-types'
 import styles from './FormField.module.css'
 
 const InputField = (props) => {
-    let testId = props.text.toLowerCase().replace(' ', '-')
-    testId = (props.componentName === "department" || props.componentName === "job-title" || props.componentName === undefined) ? "name" : testId
-
-    let inputField = props.text.replace(' ', '')
-    inputField = inputField[0].toLowerCase() + inputField.slice(1)
-    inputField = (inputField === 'departmentName' || inputField === 'jobTitle') ? 'name' : inputField
-
-    let inputFieldValues = Object.entries(props.inputValue)
-    let inputFieldIndex = inputFieldValues.findIndex(value => value[0] === inputField)
+    let inputFieldValues = Object.entries(props.inputFieldValue)
+    let inputFieldIndex = inputFieldValues.findIndex(value => value[0] === props.data.field)
     let inputFieldValue = inputFieldValues[inputFieldIndex][1]
 
     return (
         <input
-            data-testid={`create-${props.componentName}-${testId}`}
+            data-testid={`create-${props.generateTestId(props.data.text)}`}
             className={styles.input}
-            type={props.type}
+            type={props.data.type}
             value={inputFieldValue != null ? inputFieldValue : "-"}
-            maxLength={props.text === 'Middle Initial' ? 1 : null}
+            maxLength={props.data.maxLength}
             onChange={event => {
-                props.dispatch({ type: 'update', field: props.field, value: event.target.value })
+                props.inputFieldFunction({ type: 'update', field: props.data.field, value: event.target.value })
             }
             }
         >
@@ -33,12 +26,11 @@ const InputField = (props) => {
 }
 
 InputField.propTypes = {
-    inputValue: PropTypes.object,
+    data: PropTypes.object,
+    generateTestId: PropTypes.func,
+    inputFieldValue: PropTypes.object,
+    inputFieldFunction: PropTypes.func,
     componentName: PropTypes.string,
-    dispatch: PropTypes.func,
-    text: PropTypes.string,
-    type: PropTypes.string,
-    field: PropTypes.string
 }
 
 export default InputField;

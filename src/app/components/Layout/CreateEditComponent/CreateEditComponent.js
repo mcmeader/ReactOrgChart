@@ -36,32 +36,63 @@ const CreateEditComponent = (props) => {
         setJobTitles(await getJobTitle())
     }
 
+    const fetchCurrentFieldData = async () => {
+        let data = await getByIdService(id)
+        updateInputField({ type: 'set', data: data })
+    }
+
     useEffect(() => {
         if (component === 'employee')
-            fetchData(formFieldData)
+            fetchData()
     }, [])
 
-    let formFields = fields.map(value => ({ text: value, type: "text", selectOption: null }))
+    useEffect(() => {
+        if (action === 'update') {
+            fetchCurrentFieldData()
+        }
+    }, [reducer])
+
+
+    let formFields = fields.map(value => {
+        let field = value.replace(' ', '')
+        field = field.charAt(0).toLowerCase() + field.slice(1);
+        field = ((field === 'jobTitle' && component != "employee") || field === 'departmentName') ? 'name' : field;
+        return (
+            ({ text: value, type: "text", field: field, maxLength: value == 'Middle Initial' ? 1 : null, selectOption: null }))
+    })
+
+    let selectValueDisplayed = (value) => {
+        if (Object.keys(value).includes('firstName')) {
+            return `${value.firstName} ${value.lastName}`
+        } else {
+            return value.name
+        }
+    }
+
+
+    let generateTestId = (text) => {
+        let filterData = (value) => (value != undefined && value != null) ? value.toLowerCase().trim().replaceAll(' ', '-') : ""
+        return (component != 'employee') ? `${filterData(component)}-name` : `employee-${filterData(text)}`
+    }
 
     if (component === 'employee') {
         formFields = [...formFields,
-        { text: "Manager", type: "select", selectOptions: employees },
-        { text: "Department", type: "select", selectOptions: departments },
-        { text: "Job Title", type: "select", selectOptions: jobTitles }]
+        { text: "Manager", type: "select", field: 'manager', maxLength: null, selectOptions: employees, selectValueDisplayed: selectValueDisplayed },
+        { text: "Department", type: "select", field: 'department', maxLength: null, selectOptions: departments, selectValueDisplayed: selectValueDisplayed },
+        { text: "Job Title", type: "select", field: 'jobTitle', maxLength: null, selectOptions: jobTitles, selectValueDisplayed: selectValueDisplayed }]
     }
 
     return (
         <div className={styles.container}>
             <Form
-                formData={formFields}
-                reducer={updateInputField}
-                reducerValue={inputField}
+                data={formFields}
+                inputFieldValue={inputField}
+                generateTestId={generateTestId}
+                inputFieldFunction={updateInputField}
+                componentName={component}
                 createService={createService}
                 updateService={editService}
-                getByIdService={getByIdService}
-                componentName={component}
-                action={{ value: action, id: id }}
-                fetchData={fetchData}
+                action={action}
             />
         </div>
     );

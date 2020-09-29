@@ -5,26 +5,17 @@ import PropTypes from 'prop-types'
 import styles from './NestedButton.module.css'
 
 const NestedButton = (props) => {
-    let routeMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '') : ""
-    routeMainValue = (routeMainValue === 'jobtitles') ? 'job-titles' : routeMainValue
-    routeMainValue = (routeMainValue === 'orgchart') ? '' : routeMainValue
-
-    let routeSubValue = (props.subValue != undefined && props.subValue != null) ? props.subValue.toLowerCase().trim().replaceAll(' ', '') : ""
-
-    let testIdMainValue = (props.mainValue != undefined && props.mainValue != null) ? props.mainValue.toLowerCase().trim().replaceAll(' ', '-') : ""
-    let testIdSubValue = (props.subValue != undefined && props.subValue != null) ? props.subValue.toLowerCase().trim().replaceAll(' ', '-') : ""
-
     return (
         <div className={styles.container}>
-            <Link className={styles.mainValueLink} to={routeMainValue}>
-                <div data-testid={`${testIdMainValue}-link`} className={styles.mainValue}>
-                    {props.mainValue}
+            <Link className={styles.mainValueLink} to={props.mainValue.route}>
+                <div data-testid={`${props.testId.mainValue}-link`} className={styles.mainValue}>
+                    {props.mainValue.value}
                 </div>
             </Link>
-            {(((props.currentUrl === routeMainValue) || (props.currentUrl === routeSubValue)) && props.subValue != null) ?
-                <Link className={styles.subValueLink} to={routeSubValue}>
-                    <div data-testid={`${testIdSubValue}-link`} className={styles.subValue}>
-                        {props.subValue}
+            {(((props.currentUrl === props.mainValue.route) || (props.currentUrl === props.subValue.route)) && props.subValue.value != null) ?
+                <Link className={styles.subValueLink} to={props.subValue.route}>
+                    <div data-testid={`${props.testId.subValue}-link`} className={styles.subValue}>
+                        {props.subValue.value}
                     </div>
                 </Link>
                 : ""}
@@ -33,8 +24,9 @@ const NestedButton = (props) => {
 };
 
 NestedButton.propTypes = {
-    mainValue: PropTypes.string,
-    subValue: PropTypes.string,
+    mainValue: PropTypes.object,
+    subValue: PropTypes.object,
+    testId: PropTypes.object,
     currentUrl: PropTypes.string,
 }
 
