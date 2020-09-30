@@ -69,7 +69,6 @@ const CreateEditComponent = (props) => {
         }
     }
 
-
     let generateTestId = (text) => {
         let filterData = (value) => (value != undefined && value != null) ? value.toLowerCase().trim().replaceAll(' ', '-') : ""
         return (component != 'employee') ? `${filterData(component)}-name` : `employee-${filterData(text)}`

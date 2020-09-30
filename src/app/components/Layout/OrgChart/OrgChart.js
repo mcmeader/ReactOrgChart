@@ -1,57 +1,29 @@
 import React, { useEffect, useState } from 'react';
 
 import styles from './OrgChart.module.css'
-import OrgChartLayer from './OrgChartLayer/OrgChartLayer'
-import { getLayerOfEmployee, getInitialManager, getManagedEmployees, removeAllUnusedEmployees } from './OrgChartFunctions'
 import { getData } from '../ImportHandler'
+import OrgChartNode from './OrgChartNode/OrgChartNode';
 
 const OrgChart = () => {
     let { getByManagerIdService } = getData("employee")
 
-    const [orgChart, setOrgChart] = useState([[[{ firstName: 'Nexient', lastName: 'Org Chart', middleInitial: null, jobTitle: { name: null } }]]])
+    let [orgChart, setOrgChart] = useState({})
 
-    const growTreeService = async (employeeId) => {
-        let newOrgChart = [...orgChart]
-        let layerIndex = getLayerOfEmployee(orgChart, employeeId)
-        let newEmployees = await getByManagerIdService(employeeId)
-        newEmployees = [].concat(...newEmployees)
-        if (newEmployees.length > 0) {
-            if ((layerIndex == orgChart.length - 1)) {
-                newOrgChart = [...newOrgChart, [newEmployees]]
-            } else {
-                newOrgChart[layerIndex + 1] = [...newOrgChart[layerIndex + 1], newEmployees]
-            }
-        }
-        setOrgChart(newOrgChart)
-    }
-
-    const pruneTreeService = async (employeeId) => {
-        let managedEmployees = await getManagedEmployees(employeeId)
-        managedEmployees = [].concat(...managedEmployees)
-        let newOrgChart = orgChart.map(layer =>
-            layer.map(array => array.filter(data =>
-                !managedEmployees.some(employee =>
-                    employee.id == data.id)
-            )
-            )
-        )
-        removeAllUnusedEmployees(newOrgChart)
-        setOrgChart(newOrgChart)
-    }
+    let getInitialManager = async () => setOrgChart(await getByManagerIdService(0))
 
     useEffect(() => {
-        getInitialManager(orgChart, setOrgChart)
+        getInitialManager()
     }, [])
 
     return (
         <div className={styles.container}>
-            {orgChart.map((layer, key) =>
-                <OrgChartLayer
-                    key={key}
-                    layerData={layer}
-                    growTreeService={growTreeService}
-                    pruneTreeService={pruneTreeService}
-                />)}
+            <div className={styles.title}>
+                Nexient Org Chart
+            </div>
+            <OrgChartNode
+                employee={orgChart[0]}
+                getManagedEmployees={getByManagerIdService}
+            />
         </div>
     );
 };

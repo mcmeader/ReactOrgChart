@@ -1,51 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types'
 
 import styles from './OrgChartComponent.module.css'
 import OrgChartButton from '../OrgChartButton/OrgChartButton'
 
 const OrgChartComponent = (props) => {
+
     const [employeeExpanded, setEmployeeExpanded] = useState(false)
+    let buttonText = employeeExpanded ? 'Hide Employees' : 'Show Employees'
 
-    const toggleExpanded = () => {
-        employeeExpanded ? props.pruneTreeService(props.employeeId) :
-            props.growTreeService(props.employeeId)
+    let toggleExpanded = () => {
+        props.buttonHandler(employeeExpanded)
         setEmployeeExpanded(!employeeExpanded)
+        console.log("expanded", employeeExpanded)
     }
-
-    let buttonText = props.employeeName != 'Nexient Org Chart' ?
-        (employeeExpanded ? 'Hide Employees' : 'Show Employees') : null
-
-    useEffect(() => {
-        setEmployeeExpanded(false)
-    }, [props.displayComponent])
 
     return (
         <div className={styles.container}>
-            <div>
-                <div data-testid={`${props.employeeId}-display-name`}>
-                    {props.employeeName}
+            <div className={styles.component}>
+                <div data-testid={`${props.employee.id}-display-name`}>
+                    {`${props.employee.firstName} ${props.employee.lastName}`}
                 </div>
-                <div data-testid={`${props.employeeId}-job-title`}>
-                    {props.employeeTitle}
+                <div data-testid={`${props.employee.id}-job-title`}>
+                    {props.employee.jobTitle.name}
                 </div>
                 <OrgChartButton
                     buttonText={buttonText}
-                    employeeId={props.employeeId}
+                    employeeId={props.employee.id}
                     isExpanded={employeeExpanded}
-                    toggleExpanded={toggleExpanded} />
+                    toggleExpanded={toggleExpanded}
+                />
             </div>
         </div>
-    );
-};
+    )
+}
 
 OrgChartComponent.propTypes = {
-    employeeName: PropTypes.string,
-    employeeTitle: PropTypes.string,
-    displayComponent: PropTypes.bool,
-    employeeId: PropTypes.number,
-    growTreeService: PropTypes.func,
-    pruneTreeService: PropTypes.func
+    employee: PropTypes.object,
+    buttonHandler: PropTypes.func,
 }
 
 export default OrgChartComponent

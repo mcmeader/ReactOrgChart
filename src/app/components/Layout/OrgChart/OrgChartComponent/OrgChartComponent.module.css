@@ -1,5 +1,11 @@
 .container{
-    flex:1;
+    flex: 1;
+    flex-direction: row;
     text-align: center;
-    margin-right: 20px;
+    margin-bottom: 20px;
+    height: 60px;
+}
+.component{
+    display: inline-block;
+    width:125px;
 }

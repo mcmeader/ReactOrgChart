@@ -20,7 +20,6 @@ export const getEmployeeById = (employeeId) => {
 }
 
 export const createEmployee = (employee) => {
-    console.log("employee", employee)
     return doPost(serviceUrl, employee)
 }
 

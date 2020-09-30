@@ -1,0 +1,16 @@
+.container{
+    display:flex;
+    flex-direction: column;
+    border: 3px solid white;
+}
+
+.component{
+    border: 1px solid white;
+}
+
+.children {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    justify-items: initial;
+}

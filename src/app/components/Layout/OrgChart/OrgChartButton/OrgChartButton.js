@@ -8,7 +8,7 @@ const OrgChartButton = (props) => {
 
     return (
         <div className={styles.container} data-testid={`${props.employeeId}-${buttonAction}-employees-button`}>
-            { props.buttonText != null ? <button onClick={() => props.toggleExpanded()} >{props.buttonText}</button> : null}
+            { props.buttonText != null ? <button className={styles.button} onClick={() => props.toggleExpanded()} >{props.buttonText}</button> : null}
         </div>
     );
 };
