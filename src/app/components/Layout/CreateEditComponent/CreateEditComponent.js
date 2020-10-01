@@ -7,24 +7,16 @@ import Form from './Forms/Form/Form';
 import { getData } from '../ImportHandler';
 
 const CreateEditComponent = (props) => {
-    let component = null, id = null, action = null, formFieldData = null, componentType = null
+    let formFieldData = null, componentType = null, id = null, action = null
 
-    const init = () => {
-        console.log("called init")
+    let locationState = useLocation().state
 
-        let locationState = useLocation().state
-
-        if (locationState != null) {
-            formFieldData = locationState.formFieldData
-            componentType = locationState.componentType
-        }
-
-        component = componentType != null ? componentType : props.componentType
-        id = formFieldData != null ? formFieldData : null
-        action = formFieldData != null ? 'update' : 'create'
+    if (locationState != null) {
+        formFieldData = locationState.formFieldData
+        componentType = locationState.componentType
     }
 
-    init()
+    let component = componentType != null ? componentType : props.componentType
 
     let { headerValues, initialValue, reducer, getService, getDepartment, getJobTitle, getByIdService, createService, editService } =
         getData(component)
@@ -68,17 +60,19 @@ const CreateEditComponent = (props) => {
         setFormFields(formFields)
     }
 
-    const setUp = () => {
+    const initializeFormFieldData = () => {
         if (component === 'employee') {
             fetchData()
         }
         if (action === 'update') {
             fetchCurrentFieldData()
         }
+        id = formFieldData != null ? formFieldData : null
+        action = formFieldData != null ? 'update' : 'create'
     }
 
     useEffect(() => {
-        setUp()
+        initializeFormFieldData()
     }, [])
 
     useEffect(() => {
@@ -109,7 +103,7 @@ const CreateEditComponent = (props) => {
                 createService={createService}
                 updateService={editService}
                 action={action}
-                setUp={setUp}
+                setUp={initializeFormFieldData}
             />
         </div>
     );
