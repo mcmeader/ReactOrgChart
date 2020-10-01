@@ -6,7 +6,7 @@ import styles from './FormField.module.css'
 const InputField = (props) => {
     let inputFieldValues = Object.entries(props.inputFieldValue)
     let inputFieldIndex = inputFieldValues.findIndex(value => value[0] === props.data.field)
-    let inputFieldValue = inputFieldValues[inputFieldIndex][1]
+    let inputFieldValue = inputFieldIndex != -1 ? inputFieldValues[inputFieldIndex][1] : null
 
     return (
         <input

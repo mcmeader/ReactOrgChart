@@ -6,15 +6,17 @@ import Table from './Tables/Table'
 import { getData } from '../ImportHandler';
 
 const TabledComponent = (props) => {
-    let { headerValues, getService, editService, deleteService } = getData(props.componentType)
+    let headerValues = getData(props.componentType).headerValues
 
     const [data, setData] = useState(null)
 
     const fetchData = async () => {
+        let getService = getData(props.componentType).getService
         setData(await getService())
     }
 
     const deleteData = async (id) => {
+        let deleteService = getData(props.componentType).deleteService
         await deleteService(id)
         setData(await getService())
     }

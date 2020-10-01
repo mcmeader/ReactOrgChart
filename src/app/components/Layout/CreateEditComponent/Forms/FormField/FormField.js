@@ -7,6 +7,7 @@ import InputField from './InputField';
 
 const FormField = (props) => {
     let [selectedValue, setSelectedValue] = useState('0')
+
     useEffect(() => {
         setSelectedValue('0')
     }, [props.data.selectOptions])

@@ -8,7 +8,6 @@ const OrgChartNode = (props) => {
     const [managedEmployees, setManagedEmployees] = useState([])
 
     let toggleExpanded = async (employeeExpanded) => {
-        console.log(employeeExpanded)
         if (!employeeExpanded) {
             setManagedEmployees(await props.getManagedEmployees(props.employee.id))
         } else {

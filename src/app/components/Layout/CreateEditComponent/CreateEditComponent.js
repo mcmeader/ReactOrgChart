@@ -7,28 +7,33 @@ import Form from './Forms/Form/Form';
 import { getData } from '../ImportHandler';
 
 const CreateEditComponent = (props) => {
-    let formFieldData = null, componentType = null
-    let locationState = useLocation().state
+    let component = null, id = null, action = null, formFieldData = null, componentType = null
 
-    if (locationState != null) {
-        formFieldData = locationState.formFieldData
-        componentType = locationState.componentType
+    const init = () => {
+        console.log("called init")
+
+        let locationState = useLocation().state
+
+        if (locationState != null) {
+            formFieldData = locationState.formFieldData
+            componentType = locationState.componentType
+        }
+
+        component = componentType != null ? componentType : props.componentType
+        id = formFieldData != null ? formFieldData : null
+        action = formFieldData != null ? 'update' : 'create'
     }
 
-    let component = componentType != null ? componentType : props.componentType
-    let id = formFieldData != null ? formFieldData : null
+    init()
 
     let { headerValues, initialValue, reducer, getService, getDepartment, getJobTitle, getByIdService, createService, editService } =
         getData(component)
 
+    const [formFields, setFormFields] = useState([{}])
     const [employees, setEmployees] = useState([{ name: "-" }])
     const [departments, setDepartments] = useState([{ name: "-" }])
     const [jobTitles, setJobTitles] = useState([{ name: "-" }])
     const [inputField, updateInputField] = useReducer(reducer, initialValue)
-
-    let action = formFieldData != null ? 'update' : 'create'
-    let fields = [...headerValues]
-    fields.pop()
 
     const fetchData = async () => {
         setEmployees(await getService())
@@ -41,25 +46,44 @@ const CreateEditComponent = (props) => {
         updateInputField({ type: 'set', data: data })
     }
 
-    useEffect(() => {
-        if (component === 'employee')
-            fetchData()
-    }, [])
+    const createFormFields = () => {
+        let fields = [...headerValues]
+        fields.pop()
 
-    useEffect(() => {
+        let formFields = fields.map(value => {
+            let field = value.replace(' ', '')
+            field = field.charAt(0).toLowerCase() + field.slice(1);
+            field = ((field === 'jobTitle' && component != "employee") || field === 'departmentName') ? 'name' : field;
+            return (
+                ({ text: value, type: "text", field: field, maxLength: value == 'Middle Initial' ? 1 : null, selectOption: null }))
+        })
+
+        if (component === 'employee') {
+            formFields = [...formFields,
+            { text: "Manager", type: "select", field: 'manager', maxLength: null, selectOptions: employees, selectValueDisplayed: selectValueDisplayed },
+            { text: "Department", type: "select", field: 'department', maxLength: null, selectOptions: departments, selectValueDisplayed: selectValueDisplayed },
+            { text: "Job Title", type: "select", field: 'jobTitle', maxLength: null, selectOptions: jobTitles, selectValueDisplayed: selectValueDisplayed }]
+        }
+
+        setFormFields(formFields)
+    }
+
+    const setUp = () => {
+        if (component === 'employee') {
+            fetchData()
+        }
         if (action === 'update') {
             fetchCurrentFieldData()
         }
-    }, [reducer])
+    }
 
+    useEffect(() => {
+        setUp()
+    }, [])
 
-    let formFields = fields.map(value => {
-        let field = value.replace(' ', '')
-        field = field.charAt(0).toLowerCase() + field.slice(1);
-        field = ((field === 'jobTitle' && component != "employee") || field === 'departmentName') ? 'name' : field;
-        return (
-            ({ text: value, type: "text", field: field, maxLength: value == 'Middle Initial' ? 1 : null, selectOption: null }))
-    })
+    useEffect(() => {
+        createFormFields()
+    }, [employees, departments, jobTitles])
 
     let selectValueDisplayed = (value) => {
         if (Object.keys(value).includes('firstName')) {
@@ -74,13 +98,6 @@ const CreateEditComponent = (props) => {
         return (component != 'employee') ? `${filterData(component)}-name` : `employee-${filterData(text)}`
     }
 
-    if (component === 'employee') {
-        formFields = [...formFields,
-        { text: "Manager", type: "select", field: 'manager', maxLength: null, selectOptions: employees, selectValueDisplayed: selectValueDisplayed },
-        { text: "Department", type: "select", field: 'department', maxLength: null, selectOptions: departments, selectValueDisplayed: selectValueDisplayed },
-        { text: "Job Title", type: "select", field: 'jobTitle', maxLength: null, selectOptions: jobTitles, selectValueDisplayed: selectValueDisplayed }]
-    }
-
     return (
         <div className={styles.container}>
             <Form
@@ -92,6 +109,7 @@ const CreateEditComponent = (props) => {
                 createService={createService}
                 updateService={editService}
                 action={action}
+                setUp={setUp}
             />
         </div>
     );

@@ -17,6 +17,7 @@ const Form = (props) => {
                 autoDismiss: true
             })
             props.inputFieldFunction({ type: 'reset' })
+            props.setUp()
         } catch (err) {
             console.log(err)
             addToast("There was an issue submitting the data", {
@@ -54,6 +55,7 @@ Form.propTypes = {
     createService: PropTypes.func,
     updateService: PropTypes.func,
     action: PropTypes.string,
+    setUp: PropTypes.func,
 }
 
 export default Form

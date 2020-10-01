@@ -5,14 +5,12 @@ import styles from './OrgChartComponent.module.css'
 import OrgChartButton from '../OrgChartButton/OrgChartButton'
 
 const OrgChartComponent = (props) => {
-
     const [employeeExpanded, setEmployeeExpanded] = useState(false)
     let buttonText = employeeExpanded ? 'Hide Employees' : 'Show Employees'
 
     let toggleExpanded = () => {
         props.buttonHandler(employeeExpanded)
         setEmployeeExpanded(!employeeExpanded)
-        console.log("expanded", employeeExpanded)
     }
 
     return (
