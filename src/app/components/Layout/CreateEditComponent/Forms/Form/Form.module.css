@@ -1,3 +1,7 @@
 .container{
-    flex-direction: column;
+    flex:1;
+    width:20%;
+}
+.submit:hover{
+    transform: scale(1.25);
 }

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types'
 
-import styles from './TabledComponent.module.css';
 import Table from './Tables/Table'
 import { getData } from '../ImportHandler';
 
@@ -18,7 +17,7 @@ const TabledComponent = (props) => {
     const deleteData = async (id) => {
         let deleteService = getData(props.componentType).deleteService
         await deleteService(id)
-        setData(await getService())
+        setTimeout(fetchData(), 1000)
     }
 
     const getFields = (row) => {
@@ -30,15 +29,13 @@ const TabledComponent = (props) => {
     }, [props.componentType])
 
     return (
-        <div className={styles.container}>
-            <Table
-                headers={headerValues}
-                data={data}
-                deleteData={deleteData}
-                fetchData={fetchData}
-                getFields={getFields}
-                componentName={props.componentType} />
-        </div>
+        <Table
+            headers={headerValues}
+            data={data}
+            deleteHandler={deleteData}
+            fetchData={fetchData}
+            getFields={getFields}
+            componentName={props.componentType} />
     );
 };
 

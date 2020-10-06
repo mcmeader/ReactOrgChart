@@ -1,25 +1,38 @@
 .container {
-    width:100%;
+    width:99%;
     border-collapse: collapse;
+    background-color:#1B2431;
     border: 2px solid white;
   }
-  .container td{
-      border: 2px solid white;
-  }
-  .container th{
+  
+  .header{
     border: 2px solid white;
-    background-color: #525f6e;
   }
-  .container tr{
+
+  .row{
     height:50px;
     flex-direction: row;
   }
 
-  .container tr:nth-child(odd){
+  .data{
+    border: 2px solid white;
+}
+
+  .row:nth-child(odd){
     background-color: #525f6e;
   }
 
-  .edit{ 
+  .editButton{ 
     float:left;
-    padding-right: 15px;
+    padding-right: 20px;
+    padding-left: 15px;
+  }
+
+  .editButton:hover{
+    transform: scale(1.4);
+  }
+
+  .deleteButton:hover{
+    transform: scale(1.25);
+    border: 0px solid white;
   }

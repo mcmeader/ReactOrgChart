@@ -6,7 +6,7 @@ import styles from './Table.module.css'
 
 const Table = (props) => {
     const deleteRow = async (row) => {
-        await props.deleteData(row.id)
+        await props.deleteHandler(row.id)
     }
 
     const generateTestId = (key, col) => {
@@ -21,19 +21,17 @@ const Table = (props) => {
             <tr className={styles.row} key={row.id + key}>
                 {displayFields.map((field, col) => {
                     return (
-                        <td key={col + row.id} data-testid={generateTestId(key, col)}>
+                        <td className={styles.data} key={col + row.id} data-testid={generateTestId(key, col)}>
                             {(field === null || field === '') ? '-' : field}
                         </td>
                     )
                 })}
-                <td data-testid={generateTestId(key, displayFields.length)} className={styles.actions}>
-                    <div>
-                        <Link to={{ pathname: '/editfield', state: { componentType: props.componentName, formFieldData: props.data[key].id } }} >
-                            <div className={styles.edit} key={`row-${key}-edit`} data-testid={`row-${key + 1}-edit-link`}>Edit</div>
-                        </Link>
-                        <button key={`row-${key}-delete`} data-testid={`row-${key + 1}-delete-button`}
-                            onClick={() => deleteRow(row)}>Delete</button>
-                    </div>
+                <td className={styles.data} data-testid={generateTestId(key, displayFields.length)}>
+                    <Link to={{ pathname: '/editfield', state: { componentType: props.componentName, formFieldData: props.data[key].id } }} >
+                        <div className={styles.editButton} key={`row-${key}-edit`} data-testid={`row-${key + 1}-edit-link`}>Edit</div>
+                    </Link>
+                    <button className={styles.deleteButton} key={`row-${key}-delete`} data-testid={`row-${key + 1}-delete-button`}
+                        onClick={() => deleteRow(row)}>Delete</button>
                 </td>
             </tr>
         )
@@ -42,15 +40,17 @@ const Table = (props) => {
     return (
         <table className={styles.container}>
             <thead className={styles.header}>
-                <tr>
+                <tr className={styles.row}>
                     {props.headers.map((header, key) => {
-                        return (<th data-testid={`table-header-${header.toLowerCase().replace(' ', '-')}`} key={header + key}>
-                            {header}
-                        </th>)
+                        return (
+                            <th className={styles.header} data-testid={`table-header-${header.toLowerCase().replace(' ', '-')}`} key={header + key}>
+                                {header}
+                            </th>
+                        )
                     })}
                 </tr>
             </thead>
-            <tbody className={styles.body}>
+            <tbody>
                 {props.data != null ? props.data.map((row, key) =>
                     row.isActive != false ? displayRow(row, key) : null) : null}
             </tbody>

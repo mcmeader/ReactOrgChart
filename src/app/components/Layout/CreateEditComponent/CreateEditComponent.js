@@ -61,14 +61,15 @@ const CreateEditComponent = (props) => {
     }
 
     const initializeFormFieldData = () => {
+        id = formFieldData != null ? formFieldData : null
+        action = formFieldData != null ? 'update' : 'create'
+
         if (component === 'employee') {
             fetchData()
         }
         if (action === 'update') {
             fetchCurrentFieldData()
         }
-        id = formFieldData != null ? formFieldData : null
-        action = formFieldData != null ? 'update' : 'create'
     }
 
     useEffect(() => {

@@ -1,11 +1,16 @@
 .container{
     flex: 1;
-    flex-direction: row;
-    text-align: center;
     margin-bottom: 20px;
     height: 60px;
 }
 .component{
     display: inline-block;
-    width:125px;
+    white-space: nowrap;
+}
+
+.container::after{
+    content:"";
+    justify-self: flex-end;
+    display:flex;
+    height:20px;
 }

@@ -7,18 +7,22 @@ import styles from './NestedButton.module.css'
 const NestedButton = (props) => {
     return (
         <div className={styles.container}>
-            <Link className={styles.mainValueLink} to={props.mainValue.route}>
-                <div data-testid={`${props.testId.mainValue}-link`} className={styles.mainValue}>
-                    {props.mainValue.value}
-                </div>
-            </Link>
-            {(((props.currentUrl === props.mainValue.route) || (props.currentUrl === props.subValue.route)) && props.subValue.value != null) ?
-                <Link className={styles.subValueLink} to={props.subValue.route}>
-                    <div data-testid={`${props.testId.subValue}-link`} className={styles.subValue}>
-                        {props.subValue.value}
+            <div className={styles.mainValueContainer}>
+                <Link className={styles.mainValue} to={props.mainValue.route}>
+                    <div data-testid={`${props.testId.mainValue}-link`}>
+                        {props.mainValue.value}
                     </div>
                 </Link>
-                : ""}
+            </div>
+            <div className={styles.subValueContainer}>
+                {(((props.currentUrl === props.mainValue.route) || (props.currentUrl === props.subValue.route)) && props.subValue.value != null) ?
+                    <Link className={styles.subValue} to={props.subValue.route}>
+                        <div className={styles.subValueText} data-testid={`${props.testId.subValue}-link`}>
+                            {props.subValue.value}
+                        </div>
+                    </Link>
+                    : ""}
+            </div>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import styles from './FormField.module.css'
@@ -7,31 +7,43 @@ const SelectField = (props) => {
     let selectChoices = [...props.data.selectOptions]
     selectChoices.unshift({ name: "-", id: 0 })
 
+    let [errorText, setErrorText] = useState("")
+
+    useEffect(() => {
+        if (props.checkSubmit && props.selectedValue === '0') {
+            setErrorText("Field cannot be blank")
+        }
+    }, [props.checkSubmit])
+
     return (
-        <select
-            data-testid={`create-${props.generateTestId(props.data.text)}`}
-            className={styles.input}
-            value={props.selectedValue}
-            onChange={event => {
-                props.selectedValueFunction(event.target.value)
-                props.inputFieldFunction({
-                    type: 'update', field: props.data.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]
-                })
-            }} >
-            {
-                selectChoices.map((optionValue, key) => {
-                    return (<option key={key} value={optionValue.id}> {props.data.selectValueDisplayed(optionValue)}</option>)
-                })
-            }
-        </select>
+        <div className={styles.container}>
+            <select
+                data-testid={`create-${props.generateTestId(props.data.text)}`}
+                className={styles.input}
+                value={props.selectedValue}
+                onChange={event => {
+                    props.selectedValueFunction(event.target.value)
+                    props.inputFieldFunction({
+                        type: 'update', field: props.data.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]
+                    })
+                }} >
+                {
+                    selectChoices.map((optionValue, key) => {
+                        return (<option key={key} value={optionValue.id}> {props.data.selectValueDisplayed(optionValue)}</option>)
+                    })
+                }
+            </select>
+            <div className={styles.error}>
+                {errorText}
+            </div>
+        </div>
     )
 }
 
 SelectField.propTypes = {
     data: PropTypes.object,
-    selectValue: PropTypes.object,
+    checkSubmit: PropTypes.bool,
     generateTestId: PropTypes.func,
-    inputFieldValue: PropTypes.object,
     inputFieldFunction: PropTypes.func,
     selectedValue: PropTypes.string,
     selectedValueFunction: PropTypes.func,

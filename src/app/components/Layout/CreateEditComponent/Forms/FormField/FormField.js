@@ -20,8 +20,8 @@ const FormField = (props) => {
             {props.data.type === "select" ?
                 <SelectField
                     data={props.data}
+                    checkSubmit={props.checkSubmit}
                     generateTestId={props.generateTestId}
-                    inputFieldValue={props.inputFieldValue}
                     inputFieldFunction={props.inputFieldFunction}
                     componentName={props.componentName}
                     selectedValue={selectedValue}
@@ -29,6 +29,7 @@ const FormField = (props) => {
                 />
                 : <InputField
                     data={props.data}
+                    checkSubmit={props.checkSubmit}
                     generateTestId={props.generateTestId}
                     inputFieldValue={props.inputFieldValue}
                     inputFieldFunction={props.inputFieldFunction}
@@ -40,6 +41,7 @@ const FormField = (props) => {
 
 FormField.propTypes = {
     data: PropTypes.object,
+    checkSubmit: PropTypes.bool,
     generateTestId: PropTypes.func,
     inputFieldValue: PropTypes.object,
     inputFieldFunction: PropTypes.func,

@@ -1,22 +1,27 @@
 .container :active{
-    background-color: green;
+    color: #1B2431;
 }
 
 .mainValue {
     font-size: 1.5rem;
-    color:rgb(255,255,255)
+    color:white;
+    text-decoration: none;
+}
+
+.mainValueContainer:hover{
+    transform: scale(1.1);
 }
 
 .subValue{
     font-size: 1rem;
-    color:rgb(255,255,255);
-    padding-left:10px;
-}
-
-.mainValueLink{
+    color:white;
     text-decoration: none;
 }
 
-.subValueLink{
-    text-decoration: none;
+.subValueContainer:hover{
+    transform: scale(1.1);
+}
+
+.subValueText{
+    margin-left: 15px;
 }

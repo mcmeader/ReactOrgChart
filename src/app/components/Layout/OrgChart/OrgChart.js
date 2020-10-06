@@ -20,6 +20,7 @@ const OrgChart = () => {
             <div className={styles.title}>
                 Nexient Org Chart
             </div>
+            {/* <div className={styles.divider} /> */}
             <OrgChartNode
                 employee={orgChart[0]}
                 getManagedEmployees={getByManagerIdService}

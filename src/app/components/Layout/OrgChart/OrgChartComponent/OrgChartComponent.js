@@ -22,6 +22,9 @@ const OrgChartComponent = (props) => {
                 <div data-testid={`${props.employee.id}-job-title`}>
                     {props.employee.jobTitle.name}
                 </div>
+                <div className={styles.isActive} style={{ color: props.employee.isActive ? "green" : "red" }}>
+                    {props.employee.isActive ? "ACTIVE" : "INACTIVE"}
+                </div>
                 <OrgChartButton
                     buttonText={buttonText}
                     employeeId={props.employee.id}
