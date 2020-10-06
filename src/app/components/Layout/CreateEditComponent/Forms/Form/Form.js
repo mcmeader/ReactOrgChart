@@ -13,8 +13,13 @@ const Form = (props) => {
     let submitHandler = async (event) => {
         event.preventDefault()
         try {
-            if (Object.values(props.inputFieldValue).some(value => value === '')) {
+            let invalidCharacters = new RegExp(/^[a-z .A-Z]+$/)
+            if (Object.values(props.inputFieldValue).some(value => (value === '' || invalidCharacters.test(value)))) {
                 setCheckSubmit(true)
+                addToast("Data not saved, some fields are invalid", {
+                    appearance: 'warning',
+                    autoDismiss: true
+                })
             } else {
                 props.action === 'update' ? await props.updateService(props.inputFieldValue) : await props.createService(props.inputFieldValue)
                 addToast("Data submitted successfully", {
@@ -45,6 +50,7 @@ const Form = (props) => {
                         inputFieldValue={props.inputFieldValue}
                         inputFieldFunction={props.inputFieldFunction}
                         componentName={props.componentName}
+                        action={props.action}
                     />
                 )
             })}

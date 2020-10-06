@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import styles from './FormField.module.css'
 
 const SelectField = (props) => {
+
     let selectChoices = [...props.data.selectOptions]
     selectChoices.unshift({ name: "-", id: 0 })
 
@@ -16,7 +17,7 @@ const SelectField = (props) => {
     }, [props.checkSubmit])
 
     return (
-        <div className={styles.container}>
+        <div className={styles.error}>
             <select
                 data-testid={`create-${props.generateTestId(props.data.text)}`}
                 className={styles.input}
@@ -33,9 +34,7 @@ const SelectField = (props) => {
                     })
                 }
             </select>
-            <div className={styles.error}>
-                {errorText}
-            </div>
+            {errorText}
         </div>
     )
 }

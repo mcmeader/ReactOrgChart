@@ -17,7 +17,7 @@ const TabledComponent = (props) => {
     const deleteData = async (id) => {
         let deleteService = getData(props.componentType).deleteService
         await deleteService(id)
-        setTimeout(fetchData(), 1000)
+        setTimeout(() => fetchData(), 100)
     }
 
     const getFields = (row) => {

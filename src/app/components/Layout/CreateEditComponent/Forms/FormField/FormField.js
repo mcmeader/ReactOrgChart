@@ -9,7 +9,8 @@ const FormField = (props) => {
     let [selectedValue, setSelectedValue] = useState('0')
 
     useEffect(() => {
-        setSelectedValue('0')
+        (props.action == 'update' && props.data.type == 'select') ?
+            setSelectedValue(props.data.initialSelectOption) : setSelectedValue('0')
     }, [props.data.selectOptions])
 
     return (
@@ -46,6 +47,7 @@ FormField.propTypes = {
     inputFieldValue: PropTypes.object,
     inputFieldFunction: PropTypes.func,
     componentName: PropTypes.string,
+    action: PropTypes.string,
 }
 
 export default FormField;
