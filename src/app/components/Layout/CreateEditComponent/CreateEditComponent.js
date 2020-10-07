@@ -40,10 +40,6 @@ const CreateEditComponent = (props) => {
         updateInputField({ type: 'set', data: data })
     }
 
-    const filterField = (fields, fieldValue) => {
-
-    }
-
     const createFormFields = async () => {
         let fields = [...headerValues]
         fields.pop()
@@ -70,20 +66,18 @@ const CreateEditComponent = (props) => {
             {
                 text: "Manager", type: "select", field: 'manager', maxLength: null, selectValueDisplayed: selectValueDisplayed,
                 selectOptions: filterEmployee(),
-                initialSelectOption: action == 'update' ? fieldValue.manager == null ? '0' : fieldValue.manager.id.toString() : '0'
+                initialSelectOption: action === 'update' ? fieldValue.manager === null ? '0' : fieldValue.manager.id.toString() : '0'
             },
             {
                 text: "Department", type: "select", field: 'department', maxLength: null, selectValueDisplayed: selectValueDisplayed,
                 selectOptions: departments.filter(department => department.isActive === true),
-                initialSelectOption: action == 'update' ? fieldValue.department == null ? '0' : fieldValue.department.id.toString() : '0'
+                initialSelectOption: action === 'update' ? fieldValue.department === null ? '0' : fieldValue.department.id.toString() : '0'
             },
             {
                 text: "Job Title", type: "select", field: 'jobTitle', maxLength: null, selectValueDisplayed: selectValueDisplayed,
                 selectOptions: jobTitles.filter(jobTitle => jobTitle.isActive === true),
-                initialSelectOption: action == 'update' ? fieldValue.jobTitle == null ? '0' : fieldValue.jobTitle.id.toString() : '0'
+                initialSelectOption: action === 'update' ? fieldValue.jobTitle === null ? '0' : fieldValue.jobTitle.id.toString() : '0'
             }]
-
-            console.log("formFields", formFields)
         }
 
         setFormFields(formFields)

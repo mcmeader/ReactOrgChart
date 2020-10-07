@@ -22,7 +22,9 @@ const FormField = (props) => {
                 <SelectField
                     data={props.data}
                     checkSubmit={props.checkSubmit}
+                    setCheckSubmit={props.setCheckSubmit}
                     generateTestId={props.generateTestId}
+                    submitted={props.submitted}
                     inputFieldFunction={props.inputFieldFunction}
                     componentName={props.componentName}
                     selectedValue={selectedValue}
@@ -31,6 +33,8 @@ const FormField = (props) => {
                 : <InputField
                     data={props.data}
                     checkSubmit={props.checkSubmit}
+                    submitted={props.submitted}
+                    setCheckSubmit={props.setCheckSubmit}
                     generateTestId={props.generateTestId}
                     inputFieldValue={props.inputFieldValue}
                     inputFieldFunction={props.inputFieldFunction}
@@ -43,6 +47,7 @@ const FormField = (props) => {
 FormField.propTypes = {
     data: PropTypes.object,
     checkSubmit: PropTypes.bool,
+    setCheckSubmit: PropTypes.func,
     generateTestId: PropTypes.func,
     inputFieldValue: PropTypes.object,
     inputFieldFunction: PropTypes.func,

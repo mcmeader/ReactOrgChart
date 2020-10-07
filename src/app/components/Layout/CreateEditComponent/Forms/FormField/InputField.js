@@ -12,13 +12,13 @@ const InputField = (props) => {
 
     let validateFormInput = (input) => {
         let invalidCharacters = new RegExp(/^[a-z .A-Z]+$/)
-        let errorMessage = !invalidCharacters.test(input) && input != '' ? "Field contains an invalid character" : ""
+        let errorMessage = !invalidCharacters.test(input) && input != '' ? "field contains an invalid character" : ""
         setErrorText(errorMessage)
     }
 
     useEffect(() => {
         if (props.checkSubmit && inputFieldValue === '')
-            setErrorText("Field cannot be blank")
+            setErrorText("field cannot be blank")
     }, [props.checkSubmit])
 
     return (

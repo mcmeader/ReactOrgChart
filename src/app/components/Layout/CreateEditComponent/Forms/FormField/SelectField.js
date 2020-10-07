@@ -10,9 +10,14 @@ const SelectField = (props) => {
 
     let [errorText, setErrorText] = useState("")
 
+    let validateFormInput = (input) => {
+        let errorMessage = input === '0' ? "chosen value cannot be selected" : ""
+        setErrorText(errorMessage)
+    }
+
     useEffect(() => {
         if (props.checkSubmit && props.selectedValue === '0') {
-            setErrorText("Field cannot be blank")
+            setErrorText("chosen value cannot be selected")
         }
     }, [props.checkSubmit])
 
@@ -23,6 +28,7 @@ const SelectField = (props) => {
                 className={styles.input}
                 value={props.selectedValue}
                 onChange={event => {
+                    validateFormInput(event.target.value)
                     props.selectedValueFunction(event.target.value)
                     props.inputFieldFunction({
                         type: 'update', field: props.data.field, value: selectChoices.filter(choice => choice.id != 0 ? choice.id == event.target.value : "")[0]

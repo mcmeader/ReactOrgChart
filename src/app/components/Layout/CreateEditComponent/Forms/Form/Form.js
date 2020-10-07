@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import styles from './Form.module.css';
 import FormField from '../FormField/FormField'
+import { validateFormFields } from './FormValidation';
 
 const Form = (props) => {
     let { addToast } = useToasts()
@@ -13,8 +14,7 @@ const Form = (props) => {
     let submitHandler = async (event) => {
         event.preventDefault()
         try {
-            let invalidCharacters = new RegExp(/^[a-z .A-Z]+$/)
-            if (Object.values(props.inputFieldValue).some(value => (value === '' || invalidCharacters.test(value)))) {
+            if (validateFormFields(props.data, props.inputFieldValue)) {
                 setCheckSubmit(true)
                 addToast("Data not saved, some fields are invalid", {
                     appearance: 'warning',
@@ -28,6 +28,7 @@ const Form = (props) => {
                 })
                 props.inputFieldFunction({ type: 'reset' })
                 props.setUp()
+                setCheckSubmit(false)
             }
         } catch (err) {
             console.log(err)
@@ -35,6 +36,7 @@ const Form = (props) => {
                 appearance: 'error',
                 autoDismiss: true,
             })
+            setCheckSubmit(false)
         }
     }
 
