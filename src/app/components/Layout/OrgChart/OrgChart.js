@@ -20,10 +20,12 @@ const OrgChart = () => {
             <div className={styles.title}>
                 Nexient Org Chart
             </div>
-            <OrgChartNode
-                employee={orgChart[0]}
-                getManagedEmployees={getByManagerIdService}
-            />
+            <div className={styles.orgChart}>
+                <OrgChartNode
+                    employee={orgChart[0]}
+                    getManagedEmployees={getByManagerIdService}
+                />
+            </div>
         </div>
     );
 };

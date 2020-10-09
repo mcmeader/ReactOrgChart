@@ -3,7 +3,6 @@ let validateFormFields = (data, inputFieldValue) => {
     let invalidCharacters = new RegExp(/^[a-z .A-Z]+$/)
     let result = Object.values(formFields).some(value => {
         if (typeof value === 'string') {
-            console.log("Input", value.id, value)
             return value === '' || !invalidCharacters.test(value)
         } else {
             return value === undefined || value.id === '0'

@@ -1,16 +1,11 @@
 .container{
     flex: 1;
-    margin-bottom: 20px;
     height: 60px;
-}
-.component{
+    margin-top:5px;
+    margin-right:10px;
+    margin-bottom:5px;
     display: inline-block;
+    position: relative;
     white-space: nowrap;
-}
-
-.container::after{
-    content:"";
-    justify-self: flex-end;
-    display:flex;
-    height:20px;
+    padding-top:10px;
 }

@@ -8,13 +8,9 @@
 
 .title{
     font-size: 1.5rem;
+    position: relative;
 }
 
-.title::after{
-    content:"";
-    justify-self: flex-end;
-    display:flex;
-    height:20px;
-    width:88px;
-    border-right: 2px solid white;
+.title:first-child::after{
+    display: none;
 }

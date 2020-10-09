@@ -25,6 +25,7 @@ const OrgChartNode = (props) => {
                     />
                     : null}
             </div>
+            { managedEmployees.length != 0 ? <div className={styles.line}>|</div> : null}
             <div className={styles.children}>
                 {managedEmployees.map((employee, key) =>
                     <OrgChartNode
