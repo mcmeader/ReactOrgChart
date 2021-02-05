@@ -12,6 +12,7 @@ const Table = (props) => {
     const generateTestId = (key, col) => {
         let headers = props.headers[col]
         let column = headers != null ? props.headers[col].toLowerCase().replace(' ', '-') : key
+        console.log(`table - row - ${key + 1}-column - ${column}`)
         return `table-row-${key + 1}-column-${column}`
     }
 
